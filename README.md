@@ -6,3 +6,9 @@
 * FET to light the igniter
 * LCD for calibration
 
+
+LCD library:
+https://github.com/adafruit/Adafruit-RGB-LCD-Shield-Library
+
+HX711:
+https://github.com/bogde/HX711
