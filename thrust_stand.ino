@@ -1,3 +1,5 @@
+#include <SPI.h>
+
 /*
  Example using the SparkFun HX711 breakout board with a scale
  By: Nathan Seidle
@@ -31,6 +33,33 @@
 
 */
 
+#include <SD.h>
+const int chipSelect = 8;
+File thrustDataFile;
+
+void setupSDcard() {
+  Serial.println(F("Initting SD..."));
+  pinMode(SS, OUTPUT);
+
+  if (!SD.begin(chipSelect)) {
+    Serial.println(F("SD init failed"));
+  }
+  Serial.println(F("SD initted"));
+
+  String thrustFilename = F("thrust.tsv");
+
+  //  SdFile::dateTimeCallback(dateTime);
+  thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
+
+  if (!thrustDataFile) {
+    Serial.print(F("error opening "));
+    Serial.println(thrustFilename);
+  }
+
+  thrustDataFile.println(F("millis\tload"));
+}
+
+
 #include "HX711.h"
 
 #define DOUT  3
@@ -38,7 +67,15 @@
 
 HX711 scale(DOUT, CLK);
 
-float calibration_factor = -7050; //-7050 worked for my 440lb max scale setup
+float calibration_factor = -7050;
+
+
+
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+rgb_lcd lcd;
+
 
 void setup() {
   Serial.begin(9600);
@@ -54,6 +91,11 @@ void setup() {
   long zero_factor = scale.read_average(); //Get a baseline reading
   Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
   Serial.println(zero_factor);
+
+  lcd.begin(16, 2);
+  lcd.setRGB(255, 0, 0);
+  lcd.print("hello, world!");
+
 }
 
 void loop() {
@@ -67,12 +109,12 @@ void loop() {
   Serial.print(calibration_factor);
   Serial.println();
 
-  if(Serial.available())
+  if (Serial.available())
   {
     char temp = Serial.read();
-    if(temp == '+' || temp == 'a')
+    if (temp == '+' || temp == 'a')
       calibration_factor += 10;
-    else if(temp == '-' || temp == 'z')
+    else if (temp == '-' || temp == 'z')
       calibration_factor -= 10;
   }
 }
