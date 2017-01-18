@@ -1,38 +1,10 @@
-#include <SPI.h>
 
 /*
- Example using the SparkFun HX711 breakout board with a scale
- By: Nathan Seidle
- SparkFun Electronics
- Date: November 19th, 2014
- License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
-
- This is the calibration sketch. Use it to determine the calibration_factor that the main example uses. It also
- outputs the zero_factor useful for projects that have a permanent mass on the scale in between power cycles.
-
- Setup your scale and start the sketch WITHOUT a weight on the scale
- Once readings are displayed place the weight on the scale
- Press +/- or a/z to adjust the calibration_factor until the output readings match the known weight
- Use this calibration_factor on the example sketch
-
- This example assumes pounds (lbs). If you prefer kilograms, change the Serial.print(" lbs"); line to kg. The
- calibration factor will be significantly different but it will be linearly related to lbs (1 lbs = 0.453592 kg).
-
- Your calibration factor may be very positive or very negative. It all depends on the setup of your scale system
- and the direction the sensors deflect from zero state
- This example code uses bogde's excellent library: https://github.com/bogde/HX711
- bogde's library is released under a GNU GENERAL PUBLIC LICENSE
- Arduino pin 2 -> HX711 CLK
- 3 -> DOUT
- 5V -> VCC
- GND -> GND
-
- Most any pin on the Arduino Uno will be compatible with DOUT/CLK.
-
- The HX711 board can be powered from 2.7V to 5V so the Arduino 5V power should be fine.
-
+  This example code uses bogde's excellent library: https://github.com/bogde/HX711
+  Arduino pin 2 -> HX711 CLK
+  3 -> HX711 DOUT
 */
-
+#include <SPI.h>
 #include <SD.h>
 const int chipSelect = 8;
 File thrustDataFile;
@@ -77,6 +49,22 @@ float calibration_factor = -7050;
 rgb_lcd lcd;
 
 
+#define SPEAKER_PIN 6
+#define IGNITER_PIN A0
+#define BUTTON_PIN A1
+
+
+enum MISSION_STATE {
+  CALIBRATION,
+  COUNTDOWN,
+  FIRE,
+  COOLDOWN
+};
+
+
+MISSION_STATE mission_state = CALIBRATION;
+
+
 void setup() {
   Serial.begin(9600);
   Serial.println("HX711 calibration sketch");
@@ -93,18 +81,45 @@ void setup() {
   Serial.println(zero_factor);
 
   lcd.begin(16, 2);
-  lcd.setRGB(255, 0, 0);
-  lcd.print("hello, world!");
 
+  pinMode(SPEAKER_PIN, OUTPUT);
+  pinMode(IGNITER_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  begin_calibration();
+
+}
+
+void begin_calibration() {
+  lcd.setRGB(0, 255, 0);
+  lcd.print("Calibrating...");
+  mission_state = CALIBRATION;
 }
 
 void loop() {
 
-  scale.set_scale(calibration_factor); //Adjust to this calibration factor
+  switch (mission_state) {
+    
+    case CALIBRATION:
+      calibration_loop();
+
+    case COUNTDOWN:
+      countdown_loop();
+    
+    case FIRE:
+      fire_loop();
+  }
+
+}
+
+
+void calibration_loop() {
+
+  scale.set_scale(calibration_factor);
 
   Serial.print("Reading: ");
   Serial.print(scale.get_units(), 1);
-  Serial.print(" lbs"); //Change this to kg and re-adjust the calibration factor if you follow SI units like a sane person
+  Serial.print(" lbs");
   Serial.print(" calibration_factor: ");
   Serial.print(calibration_factor);
   Serial.println();
@@ -117,6 +132,76 @@ void loop() {
     else if (temp == '-' || temp == 'z')
       calibration_factor -= 10;
   }
+
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    start_countdown();
+  }
+}
+
+
+unsigned long timestamp;
+int frequency;
+
+void start_countdown() {
+  lcd.setRGB(255, 0, 0);
+  lcd.print("COUNTDOWN");
+
+  timestamp = millis();
+  mission_state = COUNTDOWN;
+}
+
+void countdown_loop() {
+  frequency = (millis() - timestamp) % 1000;
+  tone(SPEAKER_PIN, 150 + frequency);
+
+  if ( (millis() - timestamp) >= 10000) {
+    noTone(SPEAKER_PIN);
+    begin_firing();
+  }
+
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    begin_calibration();
+  }
+}
+
+void begin_firing() {
+  lcd.setRGB(255, 0, 0);
+  lcd.print("FIRING");
+
+  timestamp = millis();
+
+  fire_loop();
+  digitalWrite(IGNITER_PIN, HIGH);
+  mission_state = FIRE;
+}
+
+void fire_loop() {
+  thrustDataFile.print(millis() - timestamp);
+  thrustDataFile.print("\t");
+  thrustDataFile.println(scale.get_units());
+
+  if ( (millis() - timestamp) >= 5000) {
+    finish_firing();
+  }
+}
+
+
+void finish_firing() {
+
+  digitalWrite(IGNITER_PIN, LOW);
+  fire_loop();
+
+  thrustDataFile.flush();
+  thrustDataFile.close();
+
+  lcd.setRGB(0, 0, 255);
+  lcd.print("COOLDOWN");
+  mission_state = COOLDOWN;
+
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    begin_calibration();
+  }
+
 }
 
 
