@@ -15798,10 +15798,12 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="T1" library="transistor" deviceset="2N3904" device=""/>
 <part name="R3" library="rcl" deviceset="R-US_" device="0207/7" value="220"/>
-<part name="C5" library="rcl" deviceset="CPOL-US" device="B45181A" value="22u"/>
+<part name="C5" library="rcl" deviceset="CPOL-US" device="B45181A" value="1uF"/>
 <part name="SPEAKER" library="con-molex" deviceset="22-23-2021" device=""/>
 <part name="R4" library="rcl" deviceset="R-US_" device="0207/7" value="6R8"/>
 <part name="P+5" library="supply1" deviceset="+5V" device=""/>
+<part name="GND7" library="supply1" deviceset="GND" device=""/>
+<part name="GND10" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -15875,6 +15877,8 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <instance part="SPEAKER" gate="-2" x="106.68" y="43.18" rot="MR180"/>
 <instance part="R4" gate="G$1" x="91.44" y="50.8" rot="R270"/>
 <instance part="P+5" gate="1" x="91.44" y="60.96"/>
+<instance part="GND7" gate="1" x="91.44" y="25.4"/>
+<instance part="GND10" gate="1" x="104.14" y="25.4"/>
 </instances>
 <busses>
 </busses>
@@ -15973,6 +15977,11 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <wire x1="55.88" y1="48.26" x2="55.88" y2="50.8" width="0.1524" layer="91"/>
 <junction x="55.88" y="50.8"/>
 </segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="1"/>
+<pinref part="P+5" gate="1" pin="+5V"/>
+<wire x1="91.44" y1="55.88" x2="91.44" y2="58.42" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$43" class="0">
 <segment>
@@ -16067,6 +16076,16 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <pinref part="HX711" gate="-5" pin="S"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 <wire x1="58.42" y1="40.64" x2="55.88" y2="40.64" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="SPEAKER" gate="-1" pin="S"/>
+<pinref part="GND10" gate="1" pin="GND"/>
+<wire x1="104.14" y1="40.64" x2="104.14" y2="27.94" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="T1" gate="G1" pin="E"/>
+<pinref part="GND7" gate="1" pin="GND"/>
+<wire x1="91.44" y1="30.48" x2="91.44" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -16217,6 +16236,38 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <wire x1="48.26" y1="43.18" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="U2" gate="G$1" pin="PD2(INT0)"/>
 <wire x1="45.72" y1="45.72" x2="40.64" y2="45.72" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="U2" gate="G$1" pin="PD6(AIN0)"/>
+<wire x1="73.66" y1="35.56" x2="40.64" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$14" class="0">
+<segment>
+<pinref part="R3" gate="G$1" pin="1"/>
+<pinref part="T1" gate="G1" pin="B"/>
+<wire x1="83.82" y1="35.56" x2="86.36" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$15" class="0">
+<segment>
+<pinref part="T1" gate="G1" pin="C"/>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="91.44" y1="40.64" x2="91.44" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="+"/>
+<wire x1="91.44" y1="43.18" x2="91.44" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="43.18" x2="91.44" y2="43.18" width="0.1524" layer="91"/>
+<junction x="91.44" y="43.18"/>
+</segment>
+</net>
+<net name="N$16" class="0">
+<segment>
+<pinref part="SPEAKER" gate="-2" pin="S"/>
+<pinref part="C5" gate="G$1" pin="-"/>
+<wire x1="104.14" y1="43.18" x2="101.6" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
