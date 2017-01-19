@@ -15745,6 +15745,75 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="testpad">
+<description>&lt;b&gt;Test Pins/Pads&lt;/b&gt;&lt;p&gt;
+Cream on SMD OFF.&lt;br&gt;
+new: Attribute TP_SIGNAL_NAME&lt;br&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="P2-38-17">
+<description>&lt;b&gt;TEST PAD&lt;/b&gt;</description>
+<circle x="-1.905" y="0" radius="0.8128" width="0.1524" layer="51"/>
+<circle x="1.905" y="0" radius="0.8128" width="0.1524" layer="51"/>
+<pad name="TP-1" x="-1.905" y="0" drill="1.7018" diameter="2.1208" shape="long" rot="R90"/>
+<pad name="TP-2" x="1.905" y="0" drill="1.7018" diameter="2.1208" shape="long" rot="R90"/>
+<text x="-2.54" y="2.54" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-3.81" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<text x="-2.54" y="-5.715" size="1" layer="37">&gt;TP_SIGNAL_NAME</text>
+<rectangle x1="-2.2352" y1="-0.3302" x2="-1.5748" y2="0.3302" layer="51"/>
+<rectangle x1="1.5748" y1="-0.3302" x2="2.2352" y2="0.3302" layer="51"/>
+</package>
+</packages>
+<symbols>
+<symbol name="PS">
+<wire x1="0.635" y1="-4.572" x2="-0.635" y2="-4.572" width="0.1524" layer="94"/>
+<wire x1="0.635" y1="-4.572" x2="0.635" y2="0" width="0.1524" layer="94"/>
+<wire x1="0.635" y1="0" x2="-0.635" y2="0" width="0.1524" layer="94"/>
+<wire x1="-0.635" y1="0" x2="-0.635" y2="-4.572" width="0.1524" layer="94"/>
+<wire x1="0.381" y1="-3.048" x2="-0.381" y2="-2.794" width="0.1524" layer="94"/>
+<wire x1="-0.381" y1="-2.794" x2="0.381" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="0.381" y1="-2.54" x2="-0.381" y2="-2.286" width="0.1524" layer="94"/>
+<wire x1="-0.381" y1="-2.286" x2="0.381" y2="-2.032" width="0.1524" layer="94"/>
+<wire x1="0.381" y1="-2.032" x2="-0.381" y2="-1.778" width="0.1524" layer="94"/>
+<wire x1="-0.381" y1="-1.778" x2="0.381" y2="-1.524" width="0.1524" layer="94"/>
+<wire x1="0.381" y1="-1.524" x2="-0.381" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="-0.381" y1="-1.27" x2="0.381" y2="-1.016" width="0.1524" layer="94"/>
+<wire x1="0.381" y1="-1.016" x2="-0.381" y2="-0.762" width="0.1524" layer="94"/>
+<wire x1="-0.381" y1="-0.762" x2="0.381" y2="-0.508" width="0.1524" layer="94"/>
+<wire x1="0.508" y1="-5.207" x2="-0.508" y2="-5.207" width="0.1524" layer="94"/>
+<wire x1="-0.508" y1="-5.207" x2="-0.508" y2="-5.715" width="0.1524" layer="94"/>
+<wire x1="-0.508" y1="-5.715" x2="0" y2="-6.35" width="0.1524" layer="94"/>
+<wire x1="0" y1="-6.35" x2="0.508" y2="-5.715" width="0.1524" layer="94"/>
+<wire x1="0.508" y1="-5.715" x2="0.508" y2="-5.207" width="0.1524" layer="94"/>
+<text x="-1.016" y="-6.35" size="1.778" layer="95" rot="R90">&gt;NAME</text>
+<text x="1.27" y="-2.54" size="1.778" layer="97">&gt;TP_SIGNAL_NAME</text>
+<rectangle x1="-0.381" y1="-5.207" x2="0.381" y2="-4.572" layer="94"/>
+<pin name="TP" x="0" y="2.54" visible="off" length="short" direction="in" rot="R270"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="PTR2" prefix="TP">
+<description>&lt;b&gt;TEST PIN&lt;/b&gt;</description>
+<gates>
+<gate name="-1" symbol="PS" x="-5.08" y="0" addlevel="always"/>
+<gate name="-2" symbol="PS" x="0" y="0" addlevel="always"/>
+</gates>
+<devices>
+<device name="" package="P2-38-17">
+<connects>
+<connect gate="-1" pin="TP" pad="TP-1"/>
+<connect gate="-2" pin="TP" pad="TP-2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="TP_SIGNAL_NAME" value="" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -15780,7 +15849,6 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <part name="Q2" library="transistor-fet" deviceset="IRF510" device=""/>
 <part name="SUPPLY1" library="supply2" deviceset="+9V" device=""/>
 <part name="R2" library="rcl" deviceset="R-US_" device="0207/7" value="330"/>
-<part name="IGN1" library="con-molex" deviceset="22-23-2021" device=""/>
 <part name="LED1" library="led" deviceset="LED" device="5MM"/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="IC1" library="linear" deviceset="78*" device="TV" technology="05" value="7805TV"/>
@@ -15804,6 +15872,9 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <part name="P+5" library="supply1" deviceset="+5V" device=""/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
+<part name="BUTTON" library="con-molex" deviceset="22-23-2021" device=""/>
+<part name="GND11" library="supply1" deviceset="GND" device=""/>
+<part name="IGNITER" library="testpad" deviceset="PTR2" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -15848,8 +15919,6 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <instance part="Q2" gate="G$1" x="101.6" y="76.2"/>
 <instance part="SUPPLY1" gate="G$1" x="109.22" y="83.82"/>
 <instance part="R2" gate="G$1" x="124.46" y="73.66" rot="R180"/>
-<instance part="IGN1" gate="-1" x="137.16" y="68.58" rot="MR0"/>
-<instance part="IGN1" gate="-2" x="116.84" y="68.58" rot="MR180"/>
 <instance part="LED1" gate="G$1" x="134.62" y="73.66" rot="R90"/>
 <instance part="GND6" gate="1" x="142.24" y="58.42"/>
 <instance part="IC1" gate="A1" x="137.16" y="35.56"/>
@@ -15879,6 +15948,11 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <instance part="P+5" gate="1" x="91.44" y="60.96"/>
 <instance part="GND7" gate="1" x="91.44" y="25.4"/>
 <instance part="GND10" gate="1" x="104.14" y="25.4"/>
+<instance part="BUTTON" gate="-1" x="53.34" y="68.58" rot="MR180"/>
+<instance part="BUTTON" gate="-2" x="53.34" y="71.12" rot="MR180"/>
+<instance part="GND11" gate="1" x="50.8" y="60.96"/>
+<instance part="IGNITER" gate="-1" x="116.84" y="66.04" rot="R90"/>
+<instance part="IGNITER" gate="-2" x="137.16" y="66.04" rot="R270"/>
 </instances>
 <busses>
 </busses>
@@ -16065,12 +16139,12 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <segment>
 <pinref part="LED1" gate="G$1" pin="C"/>
 <wire x1="139.7" y1="73.66" x2="142.24" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="142.24" y1="73.66" x2="142.24" y2="68.58" width="0.1524" layer="91"/>
-<pinref part="IGN1" gate="-1" pin="S"/>
-<wire x1="139.7" y1="68.58" x2="142.24" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="73.66" x2="142.24" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="139.7" y1="66.04" x2="142.24" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="GND6" gate="1" pin="GND"/>
-<wire x1="142.24" y1="68.58" x2="142.24" y2="60.96" width="0.1524" layer="91"/>
-<junction x="142.24" y="68.58"/>
+<wire x1="142.24" y1="66.04" x2="142.24" y2="60.96" width="0.1524" layer="91"/>
+<junction x="142.24" y="66.04"/>
+<pinref part="IGNITER" gate="-2" pin="TP"/>
 </segment>
 <segment>
 <pinref part="HX711" gate="-5" pin="S"/>
@@ -16086,6 +16160,11 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <pinref part="T1" gate="G1" pin="E"/>
 <pinref part="GND7" gate="1" pin="GND"/>
 <wire x1="91.44" y1="30.48" x2="91.44" y2="27.94" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="GND11" gate="1" pin="GND"/>
+<pinref part="BUTTON" gate="-1" pin="S"/>
+<wire x1="50.8" y1="63.5" x2="50.8" y2="68.58" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -16207,10 +16286,10 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <pinref part="Q2" gate="G$1" pin="S"/>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="106.68" y1="73.66" x2="114.3" y2="73.66" width="0.1524" layer="91"/>
-<pinref part="IGN1" gate="-2" pin="S"/>
 <wire x1="114.3" y1="73.66" x2="119.38" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="114.3" y1="68.58" x2="114.3" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="66.04" x2="114.3" y2="73.66" width="0.1524" layer="91"/>
 <junction x="114.3" y="73.66"/>
+<pinref part="IGNITER" gate="-1" pin="TP"/>
 </segment>
 </net>
 <net name="N$12" class="0">
@@ -16268,6 +16347,13 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <pinref part="SPEAKER" gate="-2" pin="S"/>
 <pinref part="C5" gate="G$1" pin="-"/>
 <wire x1="104.14" y1="43.18" x2="101.6" y2="43.18" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$17" class="0">
+<segment>
+<pinref part="BUTTON" gate="-2" pin="S"/>
+<pinref part="U2" gate="G$1" pin="PC1(ADC1)"/>
+<wire x1="50.8" y1="71.12" x2="40.64" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
