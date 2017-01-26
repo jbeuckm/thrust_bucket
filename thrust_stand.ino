@@ -1,4 +1,3 @@
-
 /*
   This example code uses bogde's excellent library: https://github.com/bogde/HX711
   Arduino pin 2 -> HX711 CLK
@@ -66,6 +65,7 @@ MISSION_STATE mission_state = CALIBRATION;
 
 
 void setup() {
+
   Serial.begin(9600);
   Serial.println("HX711 calibration sketch");
   Serial.println("Remove all weight from scale");
@@ -87,13 +87,18 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   begin_calibration();
+//  start_countdown();
 
 }
+
+unsigned long n;
+
 
 void begin_calibration() {
   lcd.setRGB(0, 255, 0);
   lcd.print("Calibrating...");
   mission_state = CALIBRATION;
+  n = 0;
 }
 
 void loop() {
@@ -102,12 +107,15 @@ void loop() {
     
     case CALIBRATION:
       calibration_loop();
+      break;
 
     case COUNTDOWN:
       countdown_loop();
+      break;
     
     case FIRE:
       fire_loop();
+      break;
   }
 
 }
@@ -136,7 +144,11 @@ void calibration_loop() {
   if (digitalRead(BUTTON_PIN) == LOW) {
     start_countdown();
   }
+
+  lcd.setCursor(0,1);
+  lcd.print(scale.get_units());
 }
+
 
 
 unsigned long timestamp;
@@ -153,6 +165,10 @@ void start_countdown() {
 void countdown_loop() {
   frequency = (millis() - timestamp) % 1000;
   tone(SPEAKER_PIN, 150 + frequency);
+
+  
+  lcd.setCursor(0,1);
+  lcd.print(150 + frequency);
 
   if ( (millis() - timestamp) >= 10000) {
     noTone(SPEAKER_PIN);
