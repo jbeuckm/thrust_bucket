@@ -87,6 +87,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   begin_calibration();
+  begin_firing();
 //  start_countdown();
 
 }
@@ -120,6 +121,7 @@ void loop() {
 
 }
 
+unsigned long last_millis = 0;
 
 void calibration_loop() {
 
@@ -145,7 +147,7 @@ void calibration_loop() {
     start_countdown();
   }
 
-  lcd.setCursor(0,1);
+  lcd.setCursor(0,1);  
   lcd.print(scale.get_units());
 }
 
@@ -181,8 +183,9 @@ void countdown_loop() {
 }
 
 void begin_firing() {
+  lcd.clear();
   lcd.setRGB(255, 0, 0);
-  lcd.print("FIRING");
+  lcd.print("FIRING!!!");
 
   timestamp = millis();
 
@@ -192,17 +195,29 @@ void begin_firing() {
 }
 
 void fire_loop() {
-  thrustDataFile.print(millis() - timestamp);
+  unsigned long next_millis = millis();
+
+  thrustDataFile.print(next_millis - timestamp);
   thrustDataFile.print("\t");
   thrustDataFile.println(scale.get_units());
 
-  if ( (millis() - timestamp) >= 5000) {
+  if ( (next_millis - timestamp) >= 5000) {
     finish_firing();
   }
+
+  lcd.setCursor(0,1);
+  lcd.print(next_millis - last_millis);
+
+  last_millis = next_millis;
 }
 
 
 void finish_firing() {
+
+  mission_state = COOLDOWN;
+  lcd.clear();
+  lcd.setRGB(0, 0, 255);
+  lcd.print("COOLDOWN");
 
   digitalWrite(IGNITER_PIN, LOW);
   fire_loop();
@@ -210,9 +225,6 @@ void finish_firing() {
   thrustDataFile.flush();
   thrustDataFile.close();
 
-  lcd.setRGB(0, 0, 255);
-  lcd.print("COOLDOWN");
-  mission_state = COOLDOWN;
 
   if (digitalRead(BUTTON_PIN) == LOW) {
     begin_calibration();
