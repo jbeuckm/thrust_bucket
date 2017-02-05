@@ -31,13 +31,12 @@ void setupSDcard() {
 }
 
 
+
+#define HX711_DOUT  3
+#define HX711_CLK  2
+
 #include "HX711.h"
-
-#define DOUT  3
-#define CLK  2
-
-HX711 scale(DOUT, CLK);
-
+HX711 scale(HX711_DOUT, HX711_CLK);
 float calibration_factor = -7050;
 
 
@@ -73,8 +72,10 @@ void setup() {
   Serial.println("Press + or a to increase calibration factor");
   Serial.println("Press - or z to decrease calibration factor");
 
+
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
+
 
   long zero_factor = scale.read_average(); //Get a baseline reading
   Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
@@ -197,17 +198,21 @@ void begin_firing() {
 void fire_loop() {
   unsigned long next_millis = millis();
 
-  thrustDataFile.print(next_millis - timestamp);
-  thrustDataFile.print("\t");
-  thrustDataFile.println(scale.get_units());
+  scale.read();
+
+//  thrustDataFile.print(next_millis - timestamp);
+//  thrustDataFile.print("\t");
+//  thrustDataFile.println(scale.get_units());
 
   if ( (next_millis - timestamp) >= 5000) {
     finish_firing();
   }
-
+/*
+  lcd.clear();
   lcd.setCursor(0,1);
   lcd.print(next_millis - last_millis);
-
+*/
+  Serial.println(next_millis - last_millis);
   last_millis = next_millis;
 }
 
