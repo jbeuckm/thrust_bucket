@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CADFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="0.9.8.0" Name="load_cell_spacer" units="Inches">
+  <layers>
+    <layer name="Default" color="127,255,0">
+      <ModificationCount>0</ModificationCount>
+      <objects>
+        <rect id="1" Closed="true" p="-0.6875,-0.65625,0" w="1.375" h="1.3125">
+          <ModificationCount>53</ModificationCount>
+          <mat m="Identity" />
+          <pts>
+            <p>-0.6875,-0.65625,0</p>
+            <p>0.6875,-0.65625,0</p>
+            <p>0.6875,0.65625,0</p>
+            <p>-0.6875,0.65625,0</p>
+          </pts>
+        </rect>
+        <points id="2">
+          <ModificationCount>1</ModificationCount>
+          <mat m="Identity" />
+          <pts>
+            <p>0.289,0</p>
+            <p>-0.289,0</p>
+          </pts>
+        </points>
+        <points id="3">
+          <ModificationCount>0</ModificationCount>
+          <mat m="Identity" />
+          <pts>
+            <p>0,0.375</p>
+            <p>0,-0.375</p>
+          </pts>
+        </points>
+        <circle id="4" c="0,0.375,0" d="0.25">
+          <ModificationCount>0</ModificationCount>
+          <mat m="Identity" />
+        </circle>
+        <circle id="5" c="0.289,0,0" d="0.25">
+          <ModificationCount>64</ModificationCount>
+          <mat m="Identity" />
+        </circle>
+        <circle id="6" c="-0.289,0,0" d="0.25">
+          <ModificationCount>2</ModificationCount>
+          <mat m="Identity" />
+        </circle>
+        <circle id="7" c="0,-0.375,0" d="0.25">
+          <ModificationCount>26</ModificationCount>
+          <mat m="Identity" />
+        </circle>
+      </objects>
+    </layer>
+  </layers>
+  <MachiningOptions>
+    <Stock>
+      <PMin>0,0</PMin>
+      <PMax>0,0</PMax>
+      <Color>255,165,0</Color>
+    </Stock>
+    <ToolProfile>Unspecified</ToolProfile>
+  </MachiningOptions>
+  <parts />
+  <ActiveLayer>Default</ActiveLayer>
+</CADFile>
