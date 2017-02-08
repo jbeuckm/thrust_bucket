@@ -5,6 +5,32 @@
 */
 #include <SPI.h>
 #include <SD.h>
+#include "RotaryEncoder.h"
+
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+rgb_lcd lcd;
+
+RotaryEncoder wheel(4);
+
+void buttonDown() {
+  lcd.clear();
+  lcd.setRGB(200, 0, 200);
+}
+void buttonUp() {
+  lcd.clear();
+  lcd.setRGB(255, 100, 255);
+}
+
+void rotateWheel(int direction) {
+  if (direction == -1) {
+    lcd.print("RIGHT");
+  } else {
+    lcd.print("LEFT");
+  }
+}
+
 const int chipSelect = 8;
 File thrustDataFile;
 
@@ -32,19 +58,13 @@ void setupSDcard() {
 
 
 
-#define HX711_DOUT  3
-#define HX711_CLK  2
+#define HX711_DOUT  7
+#define HX711_CLK  6 
 
 #include "HX711.h"
 HX711 scale(HX711_DOUT, HX711_CLK);
 float calibration_factor = -7050;
 
-
-
-#include <Wire.h>
-#include "rgb_lcd.h"
-
-rgb_lcd lcd;
 
 
 #define SPEAKER_PIN 6
@@ -61,6 +81,21 @@ enum MISSION_STATE {
 
 
 MISSION_STATE mission_state = CALIBRATION;
+
+void setupRotaryEncoder() {
+  attachInterrupt(0, interruptA, RISING); // set an interrupt on PinA, looking for a rising edge signal and executing the "PinA" Interrupt Service Routine (below)
+  attachInterrupt(1, interruptB, RISING); // set an interrupt on PinB, looking for a rising edge signal and executing the "PinB" Interrupt Service Routine (below)
+  wheel.setHandleButtonDown(buttonDown);
+  wheel.setHandleButtonUp(buttonUp);
+  wheel.setHandleRotate(rotateWheel);
+}
+
+void interruptA() {
+  wheel.PinA();
+}
+void interruptB() {
+  wheel.PinB();
+}
 
 
 void setup() {
@@ -85,10 +120,11 @@ void setup() {
 
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(IGNITER_PIN, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  setupRotaryEncoder();
 
   begin_calibration();
-  begin_firing();
+//  begin_firing();
 //  start_countdown();
 
 }
@@ -97,6 +133,9 @@ unsigned long n;
 
 
 void begin_calibration() {
+
+  scale.set_scale(calibration_factor);
+
   lcd.setRGB(0, 255, 0);
   lcd.print("Calibrating...");
   mission_state = CALIBRATION;
@@ -104,6 +143,8 @@ void begin_calibration() {
 }
 
 void loop() {
+
+  wheel.checkButton();
 
   switch (mission_state) {
     
@@ -126,30 +167,12 @@ unsigned long last_millis = 0;
 
 void calibration_loop() {
 
-  scale.set_scale(calibration_factor);
-
-  Serial.print("Reading: ");
-  Serial.print(scale.get_units(), 1);
-  Serial.print(" lbs");
-  Serial.print(" calibration_factor: ");
-  Serial.print(calibration_factor);
-  Serial.println();
-
-  if (Serial.available())
-  {
-    char temp = Serial.read();
-    if (temp == '+' || temp == 'a')
-      calibration_factor += 10;
-    else if (temp == '-' || temp == 'z')
-      calibration_factor -= 10;
-  }
-
-  if (digitalRead(BUTTON_PIN) == LOW) {
-    start_countdown();
-  }
+  cli();
+  float measured = scale.get_units();
+  sei();
 
   lcd.setCursor(0,1);  
-  lcd.print(scale.get_units());
+  lcd.print(measured);
 }
 
 
@@ -207,13 +230,6 @@ void fire_loop() {
   if ( (next_millis - timestamp) >= 5000) {
     finish_firing();
   }
-/*
-  lcd.clear();
-  lcd.setCursor(0,1);
-  lcd.print(next_millis - last_millis);
-*/
-  Serial.println(next_millis - last_millis);
-  last_millis = next_millis;
 }
 
 
@@ -229,11 +245,6 @@ void finish_firing() {
 
   thrustDataFile.flush();
   thrustDataFile.close();
-
-
-  if (digitalRead(BUTTON_PIN) == LOW) {
-    begin_calibration();
-  }
 
 }
 

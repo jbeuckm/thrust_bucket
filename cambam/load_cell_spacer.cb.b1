@@ -150,7 +150,7 @@
           <LeadInMove state="Default" />
           <LeadOutMove state="Default" />
           <HoldingTabs state="Value">
-            <TabMethod>Manual</TabMethod>
+            <TabMethod>None</TabMethod>
             <Width>0.2</Width>
             <Height>0.1</Height>
             <MinimumTabs>3</MinimumTabs>
@@ -160,32 +160,6 @@
             <UseLeadIns>False</UseLeadIns>
             <TabStyle>Triangle</TabStyle>
           </HoldingTabs>
-          <Tabs>
-            <HoldingTab>
-              <ParentEntityID>1</ParentEntityID>
-              <ParametricPoint>0.16666666666666666</ParametricPoint>
-              <Normal>
-                <X>0</X>
-                <Y>-1</Y>
-              </Normal>
-            </HoldingTab>
-            <HoldingTab>
-              <ParentEntityID>1</ParentEntityID>
-              <ParametricPoint>0.38953488372093026</ParametricPoint>
-              <Normal>
-                <X>1</X>
-                <Y>-0</Y>
-              </Normal>
-            </HoldingTab>
-            <HoldingTab>
-              <ParentEntityID>1</ParentEntityID>
-              <ParametricPoint>0.877906976744186</ParametricPoint>
-              <Normal>
-                <X>-1</X>
-                <Y>-0</Y>
-              </Normal>
-            </HoldingTab>
-          </Tabs>
           <SideProfile state="Default" />
         </profile>
       </machineops>

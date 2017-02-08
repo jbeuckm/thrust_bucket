@@ -50,7 +50,6 @@
     </layer>
   </layers>
   <MachiningOptions>
-    <OutFile>{$cbfile.name}.nc</OutFile>
     <Stock>
       <PMin>0,0</PMin>
       <PMax>0,0</PMax>
@@ -73,7 +72,7 @@
           <MaxCrossoverDistance state="Default">0.7</MaxCrossoverDistance>
           <CustomMOPHeader state="Default" />
           <CustomMOPFooter state="Default" />
-          <Name>holes</Name>
+          <Name>Profile1</Name>
           <StockSurface state="Default">0</StockSurface>
           <RoughingClearance state="Default">0</RoughingClearance>
           <ClearancePlane state="Default">0.125</ClearancePlane>
@@ -111,81 +110,6 @@
             <UseLeadIns>False</UseLeadIns>
             <TabStyle>Triangle</TabStyle>
           </HoldingTabs>
-          <SideProfile state="Default" />
-        </profile>
-        <profile>
-          <WorkPlane state="Default">XY</WorkPlane>
-          <OptimisationMode state="Default">Experimental</OptimisationMode>
-          <RoughingFinishing state="Default">Roughing</RoughingFinishing>
-          <ToolDiameter state="Default">0.125</ToolDiameter>
-          <ToolNumber state="Value">3</ToolNumber>
-          <ToolProfile state="Value">EndMill</ToolProfile>
-          <PlungeFeedrate state="Value">40</PlungeFeedrate>
-          <CutFeedrate state="Value">80</CutFeedrate>
-          <MaxCrossoverDistance state="Default">0.7</MaxCrossoverDistance>
-          <CustomMOPHeader state="Default" />
-          <CustomMOPFooter state="Default" />
-          <Name>cutout</Name>
-          <StockSurface state="Default">0</StockSurface>
-          <RoughingClearance state="Default">0</RoughingClearance>
-          <ClearancePlane state="Default">0.125</ClearancePlane>
-          <SpindleDirection state="Default">CW</SpindleDirection>
-          <SpindleSpeed state="Default">1000</SpindleSpeed>
-          <SpindleRange state="Default">0</SpindleRange>
-          <VelocityMode state="Default">Undefined</VelocityMode>
-          <primitive>
-            <prim>1</prim>
-          </primitive>
-          <TargetDepth state="Value">-0.126</TargetDepth>
-          <DepthIncrement state="Value">0.005</DepthIncrement>
-          <FinalDepthIncrement state="Default">0</FinalDepthIncrement>
-          <CutOrdering state="Default">DepthFirst</CutOrdering>
-          <CutWidth state="Default">0</CutWidth>
-          <StepOver state="Default">0.4</StepOver>
-          <StepoverFeedrate state="Default">Plunge Feedrate</StepoverFeedrate>
-          <InsideOutside state="Value">Outside</InsideOutside>
-          <MillingDirection state="Default">Conventional</MillingDirection>
-          <CollisionDetection state="Default">True</CollisionDetection>
-          <CornerOvercut state="Default">False</CornerOvercut>
-          <LeadInMove state="Default" />
-          <LeadOutMove state="Default" />
-          <HoldingTabs state="Value">
-            <TabMethod>Manual</TabMethod>
-            <Width>0.2</Width>
-            <Height>0.1</Height>
-            <MinimumTabs>3</MinimumTabs>
-            <MaximumTabs>4</MaximumTabs>
-            <TabDistance>1.6</TabDistance>
-            <SizeThreshold>0.2</SizeThreshold>
-            <UseLeadIns>False</UseLeadIns>
-            <TabStyle>Triangle</TabStyle>
-          </HoldingTabs>
-          <Tabs>
-            <HoldingTab>
-              <ParentEntityID>1</ParentEntityID>
-              <ParametricPoint>0.16666666666666666</ParametricPoint>
-              <Normal>
-                <X>0</X>
-                <Y>-1</Y>
-              </Normal>
-            </HoldingTab>
-            <HoldingTab>
-              <ParentEntityID>1</ParentEntityID>
-              <ParametricPoint>0.38953488372093026</ParametricPoint>
-              <Normal>
-                <X>1</X>
-                <Y>-0</Y>
-              </Normal>
-            </HoldingTab>
-            <HoldingTab>
-              <ParentEntityID>1</ParentEntityID>
-              <ParametricPoint>0.877906976744186</ParametricPoint>
-              <Normal>
-                <X>-1</X>
-                <Y>-0</Y>
-              </Normal>
-            </HoldingTab>
-          </Tabs>
           <SideProfile state="Default" />
         </profile>
       </machineops>
