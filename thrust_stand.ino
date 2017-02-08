@@ -15,20 +15,16 @@ rgb_lcd lcd;
 RotaryEncoder wheel(4);
 
 void buttonDown() {
-  lcd.clear();
-  lcd.setRGB(200, 0, 200);
+
 }
 void buttonUp() {
-  lcd.clear();
-  lcd.setRGB(255, 100, 255);
+
 }
 
+volatile int wheelDirection;
+
 void rotateWheel(int direction) {
-  if (direction == -1) {
-    lcd.print("RIGHT");
-  } else {
-    lcd.print("LEFT");
-  }
+  wheelDirection = direction;
 }
 
 const int chipSelect = 8;
@@ -122,7 +118,8 @@ void setup() {
   pinMode(IGNITER_PIN, OUTPUT);
 
   setupRotaryEncoder();
-
+  wheel.checkButton();
+ 
   begin_calibration();
 //  begin_firing();
 //  start_countdown();
@@ -173,6 +170,15 @@ void calibration_loop() {
 
   lcd.setCursor(0,1);  
   lcd.print(measured);
+
+  lcd.setCursor(8,1);  
+
+  if (wheelDirection == -1) {
+    lcd.print("RIGHT");
+  } else {
+    lcd.print("LEFT  ");
+  }
+
 }
 
 
