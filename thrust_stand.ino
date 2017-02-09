@@ -7,12 +7,25 @@
 
 #include <SPI.h>
 #include <SD.h>
-#include "RotaryEncoder.h"
+
+
 
 #include <Wire.h>
 #include "rgb_lcd.h"
 
 rgb_lcd lcd;
+
+#include "HX711.h"
+#define HX711_DOUT  7
+#define HX711_CLK  6 
+
+HX711 scale(HX711_DOUT, HX711_CLK);
+
+#include "CalibrationMode.h"
+CalibrationMode calibrationMode(scale, lcd);
+
+
+#include "RotaryEncoder.h"
 
 RotaryEncoder wheel(4);
 
@@ -23,13 +36,9 @@ void buttonUp() {
 
 }
 
-volatile int wheelDirection;
-
 volatile int wheelRotation = 0;
 
 void rotateWheel(int direction) {
-  wheelDirection = direction;
-
   wheelRotation += direction;
 }
 
@@ -58,14 +67,6 @@ void setupSDcard() {
   thrustDataFile.println(F("millis\tload"));
 }
 
-
-
-#define HX711_DOUT  7
-#define HX711_CLK  6 
-
-#include "HX711.h"
-HX711 scale(HX711_DOUT, HX711_CLK);
-float calibration_factor = -7050;
 
 
 
@@ -132,27 +133,27 @@ void setup() {
 
 }
 
-unsigned long n;
 
 
 void begin_calibration() {
 
-  scale.set_scale(calibration_factor);
+  calibrationMode.startMode();
 
-  lcd.setRGB(0, 255, 0);
-  lcd.print("Calibrating...");
   mission_state = CALIBRATION;
-  n = 0;
 }
 
 void loop() {
 
   wheel.checkButton();
-
+ 
   switch (mission_state) {
     
     case CALIBRATION:
-      calibration_loop();
+      if (wheelRotation != 0) {
+        calibrationMode.handleWheel(wheelRotation);
+        wheelRotation = 0;
+      }
+      calibrationMode.updateMode();
       break;
 
     case COUNTDOWN:
@@ -163,43 +164,12 @@ void loop() {
       fire_loop();
       break;
   }
-
 }
 
 
-const char cm0[] PROGMEM = "[Calib]";
-const char cm1[] PROGMEM = "[TARE ]";
-const char cm2[] PROGMEM = "[Test!]";
-const char* const calibration_function[] PROGMEM = { cm0, cm1, cm2 };
-#define CALIBRATION_FUNCTION_COUNT 3
-int calibration_function_index = 0;
+
 
 unsigned long last_millis = 0;
-
-void calibration_loop() {
-
-  float measured = scale.get_units();
-
-  lcd.setCursor(0,1);  
-  lcd.print(measured);
-
-  if (wheelRotation != 0) {
-    int new_index = calibration_function_index + wheelRotation;
-    wheelRotation = 0;
-    while (new_index < 0) {
-      new_index += CALIBRATION_FUNCTION_COUNT;
-    }
-    while (new_index >= CALIBRATION_FUNCTION_COUNT) {
-      new_index -= CALIBRATION_FUNCTION_COUNT;
-    }
-    char buffer[10];
-    strcpy_P(buffer, (char*)pgm_read_word(&(calibration_function[new_index])));
-    calibration_function_index = new_index;
-    lcd.setCursor(8,1);  
-    lcd.print(buffer);
-  }
-
-}
 
 
 
