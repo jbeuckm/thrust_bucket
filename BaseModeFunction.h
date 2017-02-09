@@ -1,14 +1,21 @@
+#include "rgb_lcd.h"
+#include "HX711.h"
 
 #ifndef BASE_MODE_FUNCTION
 #define BASE_MODE_FUNCTION
 
 class BaseModeFunction {
+protected:
+
+  HX711 scale;
+  rgb_lcd lcd;
+
 public:
   bool trapWheelRotation = false;
 
-  BaseModeFunction();
+  BaseModeFunction(HX711 _scale, rgb_lcd _lcd);
 
-  virtual void getLabel() = 0;
+  virtual char *getLabel() = 0;
 
   virtual void handleWheelRotation(int wheelRotation) = 0;
   virtual void handleButtonDown() = 0;

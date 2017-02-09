@@ -100,20 +100,21 @@ void interruptB() {
 void setup() {
 
   Serial.begin(9600);
+/*  
   Serial.println("HX711 calibration sketch");
   Serial.println("Remove all weight from scale");
   Serial.println("After readings begin, place known weight on scale");
   Serial.println("Press + or a to increase calibration factor");
   Serial.println("Press - or z to decrease calibration factor");
-
+*/
 
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
 
 
   long zero_factor = scale.read_average(); //Get a baseline reading
-  Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
-  Serial.println(zero_factor);
+//  Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
+//  Serial.println(zero_factor);
 
   lcd.begin(16, 2);
 
@@ -174,7 +175,7 @@ int frequency;
 
 void start_countdown() {
   lcd.setRGB(255, 0, 0);
-  lcd.print("COUNTDOWN");
+  lcd.print(F("COUNTDOWN"));
 
   timestamp = millis();
   mission_state = COUNTDOWN;
@@ -201,7 +202,7 @@ void countdown_loop() {
 void begin_firing() {
   lcd.clear();
   lcd.setRGB(255, 0, 0);
-  lcd.print("FIRING!!!");
+  lcd.print(F("FIRING!!!"));
 
   timestamp = millis();
 
@@ -230,7 +231,7 @@ void finish_firing() {
   mission_state = COOLDOWN;
   lcd.clear();
   lcd.setRGB(0, 0, 255);
-  lcd.print("COOLDOWN");
+  lcd.print(F("COOLDOWN"));
 
   digitalWrite(IGNITER_PIN, LOW);
   fire_loop();

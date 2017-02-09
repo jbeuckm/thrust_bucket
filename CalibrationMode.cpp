@@ -1,7 +1,10 @@
 #include "CalibrationMode.h"
+#include "TareModeFunction.h"
 
 
 CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, _lcd) {
+  
+  modeFunction = new TareModeFunction(_scale, _lcd);
 
   calibration_factor = -7050;
 
@@ -24,22 +27,6 @@ void CalibrationMode::updateMode() {
   lcd.setCursor(0,1);  
   lcd.print(measured);
 
-}
-
-
-void CalibrationMode::handleWheelRotation(int wheelRotation) {
-    int new_index = function_index + wheelRotation;
-    while (new_index < 0) {
-      new_index += FUNCTION_COUNT;
-    }
-    while (new_index >= FUNCTION_COUNT) {
-      new_index -= FUNCTION_COUNT;
-    }
-    char buffer[10];
-    strcpy_P(buffer, (char*)pgm_read_word(&(calibration_function[new_index])));
-    function_index = new_index;
-    lcd.setCursor(8,1);
-    lcd.print(buffer);
 }
 
 

@@ -22,7 +22,6 @@ public:
   CalibrationMode(HX711 _scale, rgb_lcd _lcd);
   void startMode();
   void updateMode();
-  void handleWheelRotation(int wheelRotation);
 };
 
 #endif
