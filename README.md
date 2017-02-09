@@ -6,6 +6,9 @@
 * FET to light the igniter
 * LCD for calibration
 
+Status: Loadcell Mounted on I-Beam
+
+![loadcell mounted](img/loadcell_mounted.jpg)
 
 LCD library:
 https://github.com/adafruit/Adafruit-RGB-LCD-Shield-Library
