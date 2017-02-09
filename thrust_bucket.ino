@@ -7,6 +7,7 @@
 #include <SD.h>
 
 
+
 #include <Wire.h>
 #include "rgb_lcd.h"
 rgb_lcd lcd;
@@ -18,18 +19,19 @@ rgb_lcd lcd;
 HX711 scale(HX711_DOUT, HX711_CLK);
 
 
+#include "BaseMode.h"
 #include "CalibrationMode.h"
-CalibrationMode calibrationMode(scale, lcd);
+BaseMode *mode = new CalibrationMode(scale, lcd);
 
 
 #include "RotaryEncoder.h"
 RotaryEncoder wheel(4);
 
 void buttonDown() {
-
+  mode->handleButtonDown();
 }
 void buttonUp() {
-
+  mode->handleButtonUp();
 }
 
 volatile int wheelRotation = 0;
@@ -42,13 +44,11 @@ const int chipSelect = 8;
 File thrustDataFile;
 
 void setupSDcard() {
-  Serial.println(F("Initting SD..."));
   pinMode(SS, OUTPUT);
 
   if (!SD.begin(chipSelect)) {
-    Serial.println(F("SD init failed"));
+//    Serial.println(F("SD init failed"));
   }
-  Serial.println(F("SD initted"));
 
   String thrustFilename = F("thrust.tsv");
 
@@ -56,8 +56,8 @@ void setupSDcard() {
   thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
 
   if (!thrustDataFile) {
-    Serial.print(F("error opening "));
-    Serial.println(thrustFilename);
+//    Serial.print(F("error opening "));
+//    Serial.println(thrustFilename);
   }
 
   thrustDataFile.println(F("millis\tload"));
@@ -99,22 +99,11 @@ void interruptB() {
 
 void setup() {
 
-  Serial.begin(9600);
-/*  
-  Serial.println("HX711 calibration sketch");
-  Serial.println("Remove all weight from scale");
-  Serial.println("After readings begin, place known weight on scale");
-  Serial.println("Press + or a to increase calibration factor");
-  Serial.println("Press - or z to decrease calibration factor");
-*/
-
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
 
 
   long zero_factor = scale.read_average(); //Get a baseline reading
-//  Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
-//  Serial.println(zero_factor);
 
   lcd.begin(16, 2);
 
@@ -123,44 +112,25 @@ void setup() {
 
   setupRotaryEncoder();
   wheel.checkButton();
- 
-  begin_calibration();
-//  begin_firing();
-//  start_countdown();
-
-}
-
-
-
-void begin_calibration() {
-
-  calibrationMode.startMode();
 
   mission_state = CALIBRATION;
+  mode->startMode();
 }
+
+
+
 
 void loop() {
 
   wheel.checkButton();
  
-  switch (mission_state) {
-    
-    case CALIBRATION:
-      if (wheelRotation != 0) {
-        calibrationMode.handleWheelRotation(wheelRotation);
-        wheelRotation = 0;
-      }
-      calibrationMode.updateMode();
-      break;
-
-    case COUNTDOWN:
-      countdown_loop();
-      break;
-    
-    case FIRE:
-      fire_loop();
-      break;
+  if (wheelRotation != 0) {
+    mode->handleWheelRotation(wheelRotation);
+    wheelRotation = 0;
   }
+  
+  mode->updateMode();
+  
 }
 
 
@@ -194,9 +164,6 @@ void countdown_loop() {
     begin_firing();
   }
 
-  if (digitalRead(BUTTON_PIN) == LOW) {
-    begin_calibration();
-  }
 }
 
 void begin_firing() {
@@ -238,7 +205,6 @@ void finish_firing() {
 
   thrustDataFile.flush();
   thrustDataFile.close();
-
 }
 
 
