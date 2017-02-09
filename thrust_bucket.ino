@@ -1,7 +1,5 @@
 /*
   This example code uses bogde's excellent library: https://github.com/bogde/HX711
-  Arduino pin 2 -> HX711 CLK
-  3 -> HX711 DOUT
 */
 #include <avr/pgmspace.h>
 
@@ -9,24 +7,22 @@
 #include <SD.h>
 
 
-
 #include <Wire.h>
 #include "rgb_lcd.h"
-
 rgb_lcd lcd;
+
 
 #include "HX711.h"
 #define HX711_DOUT  7
 #define HX711_CLK  6 
-
 HX711 scale(HX711_DOUT, HX711_CLK);
+
 
 #include "CalibrationMode.h"
 CalibrationMode calibrationMode(scale, lcd);
 
 
 #include "RotaryEncoder.h"
-
 RotaryEncoder wheel(4);
 
 void buttonDown() {

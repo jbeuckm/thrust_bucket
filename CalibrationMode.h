@@ -1,7 +1,6 @@
 #include "Arduino.h"
-#include "rgb_lcd.h"
-#include "HX711.h"
 #include <avr/pgmspace.h>
+#include "BaseMode.h"
 
 #ifndef CALIBRATION_MODE
 #define CALIBRATION_MODE
@@ -11,12 +10,9 @@ const char cm1[] PROGMEM = "[TARE ]";
 const char cm2[] PROGMEM = "[Test!]";
 const char* const calibration_function[] PROGMEM = { cm0, cm1, cm2 };
 
-class CalibrationMode {
+class CalibrationMode : public BaseMode {
 
 private:
-int CALIBRATION_FUNCTION_COUNT = 3;
-int calibration_function_index = 0;
-
   float calibration_factor;
   HX711 scale;
   rgb_lcd lcd;
