@@ -6,11 +6,6 @@
 #ifndef CALIBRATION_MODE
 #define CALIBRATION_MODE
 
-const char cm0[] PROGMEM = "[Calib]";
-const char cm1[] PROGMEM = "[TARE ]";
-const char cm2[] PROGMEM = "[Test!]";
-const char* const calibration_function[] PROGMEM = { cm0, cm1, cm2 };
-
 class CalibrationMode : public BaseMode {
 
 private:

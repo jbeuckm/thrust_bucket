@@ -8,14 +8,14 @@
 class BaseMode {
 
 protected:
-  char* function_names[];
+
+  BaseModeFunction **modeFunctions;
   int FUNCTION_COUNT;
   int function_index;
 
   HX711 scale;
   rgb_lcd lcd;
   
-  BaseModeFunction *modeFunction;
 
 public:
   BaseMode(HX711 _scale, rgb_lcd _lcd);

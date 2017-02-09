@@ -7,11 +7,8 @@ char *TareModeFunction::getLabel() {
   return (char *)F("[TARE ]");
 }
 
-void TareModeFunction::handleWheelRotation(int wheelRotation) {
-}
-void TareModeFunction::handleButtonDown(){
-}
-void TareModeFunction::handleButtonUp() {
+void TareModeFunction::handleButtonDown() {
+  scale.tare();
 }
 
 

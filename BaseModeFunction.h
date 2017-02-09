@@ -17,9 +17,9 @@ public:
 
   virtual char *getLabel() = 0;
 
-  virtual void handleWheelRotation(int wheelRotation) = 0;
-  virtual void handleButtonDown() = 0;
-  virtual void handleButtonUp() = 0;
+  virtual void handleWheelRotation(int wheelRotation);
+  virtual void handleButtonDown();
+  virtual void handleButtonUp();
 };
 
 #endif
