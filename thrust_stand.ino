@@ -3,6 +3,8 @@
   Arduino pin 2 -> HX711 CLK
   3 -> HX711 DOUT
 */
+#include <avr/pgmspace.h>
+
 #include <SPI.h>
 #include <SD.h>
 #include "RotaryEncoder.h"
@@ -23,8 +25,12 @@ void buttonUp() {
 
 volatile int wheelDirection;
 
+volatile int wheelRotation = 0;
+
 void rotateWheel(int direction) {
   wheelDirection = direction;
+
+  wheelRotation += direction;
 }
 
 const int chipSelect = 8;
@@ -160,23 +166,37 @@ void loop() {
 
 }
 
+
+const char cm0[] PROGMEM = "[Calib]";
+const char cm1[] PROGMEM = "[TARE ]";
+const char cm2[] PROGMEM = "[Test!]";
+const char* const calibration_function[] PROGMEM = { cm0, cm1, cm2 };
+#define CALIBRATION_FUNCTION_COUNT 3
+int calibration_function_index = 0;
+
 unsigned long last_millis = 0;
 
 void calibration_loop() {
 
-  cli();
   float measured = scale.get_units();
-  sei();
 
   lcd.setCursor(0,1);  
   lcd.print(measured);
 
-  lcd.setCursor(8,1);  
-
-  if (wheelDirection == -1) {
-    lcd.print("RIGHT");
-  } else {
-    lcd.print("LEFT  ");
+  if (wheelRotation != 0) {
+    int new_index = calibration_function_index + wheelRotation;
+    wheelRotation = 0;
+    while (new_index < 0) {
+      new_index += CALIBRATION_FUNCTION_COUNT;
+    }
+    while (new_index >= CALIBRATION_FUNCTION_COUNT) {
+      new_index -= CALIBRATION_FUNCTION_COUNT;
+    }
+    char buffer[10];
+    strcpy_P(buffer, (char*)pgm_read_word(&(calibration_function[new_index])));
+    calibration_function_index = new_index;
+    lcd.setCursor(8,1);  
+    lcd.print(buffer);
   }
 
 }
