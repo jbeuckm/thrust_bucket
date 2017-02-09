@@ -27,7 +27,7 @@ void CalibrationMode::updateMode() {
 }
 
 
-void CalibrationMode::handleWheel(int wheelRotation) {
+void CalibrationMode::handleWheelRotation(int wheelRotation) {
     int new_index = function_index + wheelRotation;
     while (new_index < 0) {
       new_index += FUNCTION_COUNT;
@@ -41,3 +41,7 @@ void CalibrationMode::handleWheel(int wheelRotation) {
     lcd.setCursor(8,1);
     lcd.print(buffer);
 }
+
+
+
+

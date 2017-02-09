@@ -146,7 +146,7 @@ void loop() {
     
     case CALIBRATION:
       if (wheelRotation != 0) {
-        calibrationMode.handleWheel(wheelRotation);
+        calibrationMode.handleWheelRotation(wheelRotation);
         wheelRotation = 0;
       }
       calibrationMode.updateMode();

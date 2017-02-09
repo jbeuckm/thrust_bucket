@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include <avr/pgmspace.h>
 #include "BaseMode.h"
+#include "BaseModeFunction.h"
 
 #ifndef CALIBRATION_MODE
 #define CALIBRATION_MODE
@@ -21,8 +22,7 @@ public:
   CalibrationMode(HX711 _scale, rgb_lcd _lcd);
   void startMode();
   void updateMode();
-  void handleWheel(int wheelRotation);
-
+  void handleWheelRotation(int wheelRotation);
 };
 
 #endif

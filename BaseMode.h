@@ -18,8 +18,9 @@ public:
   BaseMode(HX711 _scale, rgb_lcd _lcd);
   virtual void startMode() = 0;
   virtual void updateMode() = 0;
-  virtual void handleWheel(int wheelRotation) = 0;
-
+  virtual void handleWheelRotation(int wheelRotation) = 0;
+  void handleButtonDown();
+  void handleButtonUp();
 };
 
 #endif
