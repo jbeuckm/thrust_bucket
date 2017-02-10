@@ -7,7 +7,7 @@ BaseMode::BaseMode(HX711 _scale, rgb_lcd _lcd) {
 }
 
 void BaseMode::startMode() {
-    showFunctionName();
+  showFunctionName();
 }
 
 void BaseMode::handleButtonDown() {
@@ -33,8 +33,6 @@ void BaseMode::handleWheelRotation(int wheelRotation) {
     }
 
     function_index = new_index;
-//    char buffer[10];
-//    strcpy_P(buffer, (char*)pgm_read_word(&(calibration_function[new_index])));
     showFunctionName();
 
   }

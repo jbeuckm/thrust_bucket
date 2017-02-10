@@ -4,7 +4,6 @@
 #include <avr/pgmspace.h>
 
 #include <SPI.h>
-#include <SD.h>
 
 
 
@@ -21,7 +20,7 @@ HX711 scale(HX711_DOUT, HX711_CLK);
 
 #include "BaseMode.h"
 #include "CalibrationMode.h"
-BaseMode *mode = new CalibrationMode(scale, lcd);
+BaseMode *mode;
 
 
 #include "RotaryEncoder.h"
@@ -39,6 +38,24 @@ volatile int wheelRotation = 0;
 void rotateWheel(int direction) {
   wheelRotation += direction;
 }
+
+void setupRotaryEncoder() {
+  attachInterrupt(0, interruptA, RISING); // set an interrupt on PinA, looking for a rising edge signal and executing the "PinA" Interrupt Service Routine (below)
+  attachInterrupt(1, interruptB, RISING); // set an interrupt on PinB, looking for a rising edge signal and executing the "PinB" Interrupt Service Routine (below)
+  wheel.setHandleButtonDown(buttonDown);
+  wheel.setHandleButtonUp(buttonUp);
+  wheel.setHandleRotate(rotateWheel);
+}
+
+void interruptA() {
+  wheel.PinA();
+}
+void interruptB() {
+  wheel.PinB();
+}
+
+
+#include <SD.h>
 
 const int chipSelect = 8;
 File thrustDataFile;
@@ -81,29 +98,20 @@ enum MISSION_STATE {
 
 MISSION_STATE mission_state = CALIBRATION;
 
-void setupRotaryEncoder() {
-  attachInterrupt(0, interruptA, RISING); // set an interrupt on PinA, looking for a rising edge signal and executing the "PinA" Interrupt Service Routine (below)
-  attachInterrupt(1, interruptB, RISING); // set an interrupt on PinB, looking for a rising edge signal and executing the "PinB" Interrupt Service Routine (below)
-  wheel.setHandleButtonDown(buttonDown);
-  wheel.setHandleButtonUp(buttonUp);
-  wheel.setHandleRotate(rotateWheel);
-}
 
-void interruptA() {
-  wheel.PinA();
-}
-void interruptB() {
-  wheel.PinB();
-}
 
 
 void setup() {
 
+  Serial.begin(9600); 
+  Serial.println("begin"); 
+
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
 
-
   long zero_factor = scale.read_average(); //Get a baseline reading
+
+  mode = new CalibrationMode(scale, lcd);
 
   lcd.begin(16, 2);
 
@@ -115,12 +123,14 @@ void setup() {
 
   mission_state = CALIBRATION;
   mode->startMode();
+  Serial.println("setup complete"); 
 }
 
 
 
 
 void loop() {
+  Serial.println("begin loop"); 
 
   wheel.checkButton();
  
@@ -131,6 +141,7 @@ void loop() {
   
   mode->updateMode();
   
+  Serial.println("loop complete"); 
 }
 
 

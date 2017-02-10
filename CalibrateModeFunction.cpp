@@ -4,7 +4,7 @@ CalibrateModeFunction::CalibrateModeFunction(HX711 _scale, rgb_lcd _lcd) : BaseM
 }
 
 String CalibrateModeFunction::getLabel() {
-  return (char *)F("[Calib]");
+  return F("[Calib]");
 }
 
 void CalibrateModeFunction::handleButtonDown() {

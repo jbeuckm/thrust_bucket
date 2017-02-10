@@ -12,7 +12,7 @@ protected:
   rgb_lcd lcd;
 
 public:
-  bool trapWheelRotation = false;
+  bool trapWheelRotation;
 
   BaseModeFunction(HX711 _scale, rgb_lcd _lcd);
 
