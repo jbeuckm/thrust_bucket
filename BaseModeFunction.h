@@ -1,3 +1,4 @@
+#include "arduino.h"
 #include "rgb_lcd.h"
 #include "HX711.h"
 
@@ -15,7 +16,7 @@ public:
 
   BaseModeFunction(HX711 _scale, rgb_lcd _lcd);
 
-  virtual char *getLabel() = 0;
+  virtual String getLabel() = 0;
 
   virtual void handleWheelRotation(int wheelRotation);
   virtual void handleButtonDown();

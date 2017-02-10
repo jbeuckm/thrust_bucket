@@ -13,21 +13,23 @@ CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, 
     EEPROM.put(0, calibration_factor);
   }
 
+  scale.set_scale(calibration_factor);
+
 
   modeFunctions = (BaseModeFunction **) malloc(3 * sizeof(BaseModeFunction*));
   
   modeFunctions[0] = new TareModeFunction(_scale, _lcd);
-  modeFunctions[1] = new CalibrateModeFunction(_scale, _lcd);
+//  modeFunctions[1] = new CalibrateModeFunction(_scale, _lcd);
 
-  FUNCTION_COUNT = 2;
+  FUNCTION_COUNT = 1;
 }
 
 void CalibrationMode::startMode() {
 
-  scale.set_scale(calibration_factor);
-
   lcd.setRGB(0, 255, 0);
   lcd.print(F("Calibrating..."));
+
+  showFunctionName();
   
 }
 

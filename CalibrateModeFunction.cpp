@@ -3,16 +3,16 @@
 CalibrateModeFunction::CalibrateModeFunction(HX711 _scale, rgb_lcd _lcd) : BaseModeFunction(_scale, _lcd) {
 }
 
-char *CalibrateModeFunction::getLabel() {
-  return (char *)F("[TARE ]");
+String CalibrateModeFunction::getLabel() {
+  return (char *)F("[Calib]");
 }
 
 void CalibrateModeFunction::handleButtonDown() {
-  this->trapWheelRotation = true;
+  trapWheelRotation = true;
 }
 
 void CalibrateModeFunction::handleButtonUp() {
-  this->trapWheelRotation = false;
+  trapWheelRotation = false;
 }
 
 void CalibrateModeFunction::handleWheelRotation(int wheelRotation) {

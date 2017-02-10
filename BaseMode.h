@@ -8,6 +8,7 @@
 class BaseMode {
 
 protected:
+  void showFunctionName();
 
   BaseModeFunction **modeFunctions;
   int FUNCTION_COUNT;
@@ -19,7 +20,7 @@ protected:
 
 public:
   BaseMode(HX711 _scale, rgb_lcd _lcd);
-  virtual void startMode() = 0;
+  virtual void startMode();
   virtual void updateMode() = 0;
   virtual void handleWheelRotation(int wheelRotation);
   void handleButtonDown();

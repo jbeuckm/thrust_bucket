@@ -6,6 +6,10 @@ BaseMode::BaseMode(HX711 _scale, rgb_lcd _lcd) {
   function_index = 0;
 }
 
+void BaseMode::startMode() {
+    showFunctionName();
+}
+
 void BaseMode::handleButtonDown() {
   modeFunctions[function_index]->handleButtonDown();
 }
@@ -31,9 +35,14 @@ void BaseMode::handleWheelRotation(int wheelRotation) {
     function_index = new_index;
 //    char buffer[10];
 //    strcpy_P(buffer, (char*)pgm_read_word(&(calibration_function[new_index])));
-    lcd.setCursor(8,1);
-    lcd.print(modeFunctions[function_index]->getLabel());
+    showFunctionName();
 
   }
+}
+
+
+void BaseMode::showFunctionName() {
+  lcd.setCursor(8,1);
+  lcd.print(modeFunctions[function_index]->getLabel());
 }
 

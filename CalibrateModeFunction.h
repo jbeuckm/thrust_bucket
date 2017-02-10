@@ -3,7 +3,7 @@
 class CalibrateModeFunction : public BaseModeFunction {
 public:
   CalibrateModeFunction(HX711 _scale, rgb_lcd _lcd);
-  char * getLabel();
+  String getLabel();
 
   void handleWheelRotation(int wheelRotation);
   void handleButtonDown();
