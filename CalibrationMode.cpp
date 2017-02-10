@@ -3,12 +3,13 @@
 #include "CalibrationMode.h"
 #include "TareModeFunction.h"
 #include "CalibrateModeFunction.h"
+#include <math.h>
 
 CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, _lcd) {
   
   EEPROM.get(0, calibration_factor);
   
-  if (!calibration_factor) {
+  if (isnan(calibration_factor)) {
     calibration_factor = -7050;
     EEPROM.put(0, calibration_factor);
   }
