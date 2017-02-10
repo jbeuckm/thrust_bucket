@@ -7,17 +7,17 @@
 
 CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd) : BaseMode(_scale, _lcd) {
 
-  Serial.println("CalibrationMode()"); 
+  Serial.println(F("CalibrationMode()")); 
 
   EEPROM.get(0, calibration_factor);
   
   if (isnan(calibration_factor)) {
     calibration_factor = -7050;
     EEPROM.put(0, calibration_factor);
-    Serial.print("saved calibration factor ");
+    Serial.print(F("saved calibration factor "));
     Serial.println(calibration_factor);
   } else {
-    Serial.print("loaded calibration factor ");
+    Serial.print(F("loaded calibration factor "));
     Serial.println(calibration_factor);
   }
 
@@ -31,7 +31,7 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd) : BaseMode(_scale
   modeFunctions[0] = new TareModeFunction(scale, lcd);
   modeFunctions[1] = new CalibrateModeFunction(scale, lcd);
 
-  Serial.println("CalibrationMode() complete"); 
+  Serial.println(F("CalibrationMode() complete")); 
 }
 
 void CalibrationMode::startMode() {
@@ -45,14 +45,14 @@ void CalibrationMode::startMode() {
 
 
 void CalibrationMode::updateMode() {
-  Serial.println("updateMode()"); 
+  Serial.println(F("updateMode()")); 
 
   float measured = scale->get_units();
 
   lcd->setCursor(0,1);  
   lcd->print(measured);
 
-  Serial.println("updateMode() complete"); 
+  Serial.println(F("updateMode() complete")); 
 }
 
 

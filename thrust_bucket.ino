@@ -8,13 +8,13 @@
 
 #include <Wire.h>
 #include "rgb_lcd.h"
-rgb_lcd *lcd;
+rgb_lcd lcd;
 
 
 #include "HX711.h"
 #define HX711_DOUT  7
 #define HX711_CLK  6 
-HX711 *scale;
+HX711 scale(HX711_DOUT, HX711_CLK);
 
 
 #include "BaseMode.h"
@@ -102,20 +102,17 @@ MISSION_STATE mission_state = CALIBRATION;
 
 void setup() {
 
-  lcd = new rgb_lcd();
-  scale = new HX711(HX711_DOUT, HX711_CLK);
-
   Serial.begin(9600); 
-  Serial.println("begin"); 
+  Serial.println(F("setup()")); 
 
-  scale->set_scale();
-  scale->tare(); //Reset the scale to 0
+  scale.set_scale();
+  scale.tare(); //Reset the scale to 0
 
-  long zero_factor = scale->read_average(); //Get a baseline reading
+  long zero_factor = scale.read_average(); //Get a baseline reading
 
-  lcd->begin(16, 2);
+  lcd.begin(16, 2);
 
-  mode = new CalibrationMode(scale, lcd);
+  mode = new CalibrationMode(&scale, &lcd);
 
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(IGNITER_PIN, OUTPUT);
@@ -125,14 +122,14 @@ void setup() {
 
   mission_state = CALIBRATION;
   mode->startMode();
-  Serial.println("setup complete"); 
+  Serial.println(F("setup complete")); 
 }
 
 
 
 
 void loop() {
-  Serial.println("begin loop"); 
+  Serial.println(F("begin loop")); 
 
   wheel.checkButton();
  
@@ -143,7 +140,7 @@ void loop() {
   
   mode->updateMode();
   
-  Serial.println("loop complete"); 
+  Serial.println(F("loop complete")); 
 }
 
 
@@ -157,8 +154,8 @@ unsigned long timestamp;
 int frequency;
 
 void start_countdown() {
-  lcd->setRGB(255, 0, 0);
-  lcd->print(F("COUNTDOWN"));
+  lcd.setRGB(255, 0, 0);
+  lcd.print(F("COUNTDOWN"));
 
   timestamp = millis();
   mission_state = COUNTDOWN;
@@ -169,8 +166,8 @@ void countdown_loop() {
   tone(SPEAKER_PIN, 150 + frequency);
 
   
-  lcd->setCursor(0,1);
-  lcd->print(150 + frequency);
+  lcd.setCursor(0,1);
+  lcd.print(150 + frequency);
 
   if ( (millis() - timestamp) >= 10000) {
     noTone(SPEAKER_PIN);
@@ -180,9 +177,9 @@ void countdown_loop() {
 }
 
 void begin_firing() {
-  lcd->clear();
-  lcd->setRGB(255, 0, 0);
-  lcd->print(F("FIRING!!!"));
+  lcd.clear();
+  lcd.setRGB(255, 0, 0);
+  lcd.print(F("FIRING!!!"));
 
   timestamp = millis();
 
@@ -194,11 +191,11 @@ void begin_firing() {
 void fire_loop() {
   unsigned long next_millis = millis();
 
-  scale->read();
+  scale.read();
 
 //  thrustDataFile.print(next_millis - timestamp);
 //  thrustDataFile.print("\t");
-//  thrustDataFile.println(scale->get_units());
+//  thrustDataFile.println(scale.get_units());
 
   if ( (next_millis - timestamp) >= 5000) {
     finish_firing();
@@ -209,9 +206,9 @@ void fire_loop() {
 void finish_firing() {
 
   mission_state = COOLDOWN;
-  lcd->clear();
-  lcd->setRGB(0, 0, 255);
-  lcd->print(F("COOLDOWN"));
+  lcd.clear();
+  lcd.setRGB(0, 0, 255);
+  lcd.print(F("COOLDOWN"));
 
   digitalWrite(IGNITER_PIN, LOW);
   fire_loop();
