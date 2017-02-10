@@ -1,6 +1,6 @@
 #include "TareModeFunction.h"
 
-TareModeFunction::TareModeFunction(HX711 _scale, rgb_lcd _lcd) : BaseModeFunction(_scale, _lcd) {
+TareModeFunction::TareModeFunction(HX711 *_scale, rgb_lcd *_lcd) : BaseModeFunction(_scale, _lcd) {
 }
 
 String TareModeFunction::getLabel() {
@@ -8,7 +8,7 @@ String TareModeFunction::getLabel() {
 }
 
 void TareModeFunction::handleButtonDown() {
-  scale.tare();
+  scale->tare();
 }
 
 

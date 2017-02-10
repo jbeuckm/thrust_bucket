@@ -10,11 +10,11 @@ class CalibrationMode : public BaseMode {
 
 private:
   float calibration_factor;
-  HX711 scale;
-  rgb_lcd lcd;
+  HX711 *scale;
+  rgb_lcd *lcd;
 
 public:
-  CalibrationMode(HX711 _scale, rgb_lcd _lcd);
+  CalibrationMode(HX711 *_scale, rgb_lcd *_lcd);
   void startMode();
   void updateMode();
 };

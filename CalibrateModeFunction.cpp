@@ -1,6 +1,6 @@
 #include "CalibrateModeFunction.h"
 
-CalibrateModeFunction::CalibrateModeFunction(HX711 _scale, rgb_lcd _lcd) : BaseModeFunction(_scale, _lcd) {
+CalibrateModeFunction::CalibrateModeFunction(HX711 *_scale, rgb_lcd *_lcd) : BaseModeFunction(_scale, _lcd) {
 }
 
 String CalibrateModeFunction::getLabel() {

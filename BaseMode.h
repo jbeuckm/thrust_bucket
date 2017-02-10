@@ -14,12 +14,12 @@ protected:
   int FUNCTION_COUNT;
   int function_index;
 
-  HX711 scale;
-  rgb_lcd lcd;
+  HX711 *scale;
+  rgb_lcd *lcd;
   
 
 public:
-  BaseMode(HX711 _scale, rgb_lcd _lcd);
+  BaseMode(HX711 *_scale, rgb_lcd *_lcd);
   virtual void startMode();
   virtual void updateMode() = 0;
   virtual void handleWheelRotation(int wheelRotation);

@@ -5,9 +5,9 @@
 #include "CalibrateModeFunction.h"
 #include <math.h>
 
-CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, _lcd) {
+CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd) : BaseMode(_scale, _lcd) {
 
-    Serial.println("CalibrationMode()"); 
+  Serial.println("CalibrationMode()"); 
 
   EEPROM.get(0, calibration_factor);
   
@@ -21,7 +21,7 @@ CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, 
     Serial.println(calibration_factor);
   }
 
-  scale.set_scale(calibration_factor);
+  scale->set_scale(calibration_factor);
 
 
   FUNCTION_COUNT = 2;
@@ -31,13 +31,13 @@ CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, 
   modeFunctions[0] = new TareModeFunction(scale, lcd);
   modeFunctions[1] = new CalibrateModeFunction(scale, lcd);
 
-    Serial.println("CalibrationMode() complete"); 
+  Serial.println("CalibrationMode() complete"); 
 }
 
 void CalibrationMode::startMode() {
 
-  lcd.setRGB(0, 255, 0);
-  lcd.print(F("Calibrating..."));
+  lcd->setRGB(0, 255, 0);
+  lcd->print(F("Calibrating..."));
 
   showFunctionName();
   
@@ -45,14 +45,14 @@ void CalibrationMode::startMode() {
 
 
 void CalibrationMode::updateMode() {
-    Serial.println("updateMode()"); 
+  Serial.println("updateMode()"); 
 
-  float measured = scale.get_units();
+  float measured = scale->get_units();
 
-  lcd.setCursor(0,1);  
-  lcd.print(measured);
+  lcd->setCursor(0,1);  
+  lcd->print(measured);
 
-    Serial.println("updateMode() complete"); 
+  Serial.println("updateMode() complete"); 
 }
 
 

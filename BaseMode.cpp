@@ -1,6 +1,6 @@
 #include "BaseMode.h"
 
-BaseMode::BaseMode(HX711 _scale, rgb_lcd _lcd) {
+BaseMode::BaseMode(HX711 *_scale, rgb_lcd *_lcd) {
   scale = _scale;
   lcd = _lcd;
   function_index = 0;
@@ -40,7 +40,7 @@ void BaseMode::handleWheelRotation(int wheelRotation) {
 
 
 void BaseMode::showFunctionName() {
-  lcd.setCursor(8,1);
-  lcd.print(modeFunctions[function_index]->getLabel());
+  lcd->setCursor(8,1);
+  lcd->print(modeFunctions[function_index]->getLabel());
 }
 

@@ -8,13 +8,13 @@
 class BaseModeFunction {
 protected:
 
-  HX711 scale;
-  rgb_lcd lcd;
+  HX711 *scale;
+  rgb_lcd *lcd;
 
 public:
   bool trapWheelRotation;
 
-  BaseModeFunction(HX711 _scale, rgb_lcd _lcd);
+  BaseModeFunction(HX711 *_scale, rgb_lcd *_lcd);
 
   virtual String getLabel() = 0;
 
