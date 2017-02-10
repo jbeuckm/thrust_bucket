@@ -29,7 +29,7 @@ CalibrationMode::CalibrationMode(HX711 _scale, rgb_lcd _lcd) : BaseMode(_scale, 
   modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
   
   modeFunctions[0] = new TareModeFunction(scale, lcd);
-  modeFunctions[1] = new CalibrateModeFunction(_scale, _lcd);
+  modeFunctions[1] = new CalibrateModeFunction(scale, lcd);
 
     Serial.println("CalibrationMode() complete"); 
 }
@@ -43,13 +43,11 @@ void CalibrationMode::startMode() {
   
 }
 
-float f = 0.0f;
+
 void CalibrationMode::updateMode() {
     Serial.println("updateMode()"); 
 
-//  float measured = scale.get_units();
-  float measured = f;
-  f += .01;
+  float measured = scale.get_units();
 
   lcd.setCursor(0,1);  
   lcd.print(measured);
