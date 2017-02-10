@@ -104,6 +104,7 @@ void setup() {
 
   Serial.begin(9600); 
   Serial.println(F("setup()")); 
+  Serial.println((int)&scale); 
 
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
@@ -117,8 +118,12 @@ void setup() {
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(IGNITER_PIN, OUTPUT);
 
+  Serial.println(F("pins are setup")); 
+
   setupRotaryEncoder();
+  Serial.println(F("encoder is setup")); 
   wheel.checkButton();
+  Serial.println(F("button is checked")); 
 
   mission_state = CALIBRATION;
   mode->startMode();
