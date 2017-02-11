@@ -82,9 +82,8 @@ void setupSDcard() {
 
 
 
-#define SPEAKER_PIN 6
+#define SPEAKER_PIN 5
 #define IGNITER_PIN A0
-#define BUTTON_PIN A1
 
 
 enum MISSION_STATE {
@@ -126,7 +125,7 @@ void setup() {
   Serial.println(F("button is checked")); 
 
   mission_state = CALIBRATION;
-  mode->startMode();
+    mode->startMode();
   Serial.println(F("setup complete")); 
 }
 
