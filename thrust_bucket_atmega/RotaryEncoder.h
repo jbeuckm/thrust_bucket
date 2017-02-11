@@ -1,8 +1,10 @@
 #include "Arduino.h"
 
+#ifndef ROTARY_ENCODER
+#define ROTARY_ENCODER
+
 #define pinA 2
 #define pinB 3
-
 
 class RotaryEncoder {
 
@@ -33,4 +35,5 @@ public:
   void setHandleButtonUp(void (*fptr)(void));        
 };
 
+#endif
 

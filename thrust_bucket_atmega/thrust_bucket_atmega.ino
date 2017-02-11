@@ -13,7 +13,7 @@ rgb_lcd lcd;
 
 #include "HX711.h"
 #define HX711_DOUT  7
-#define HX711_CLK  6 
+#define HX711_CLK  6
 HX711 scale(HX711_DOUT, HX711_CLK);
 
 
@@ -101,9 +101,9 @@ MISSION_STATE mission_state = CALIBRATION;
 
 void setup() {
 
-  Serial.begin(9600); 
-  Serial.println(F("setup()")); 
-  Serial.println((int)&scale); 
+  Serial.begin(9600);
+  Serial.println(F("setup()"));
+  Serial.println((int)&scale);
 
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
@@ -117,34 +117,34 @@ void setup() {
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(IGNITER_PIN, OUTPUT);
 
-  Serial.println(F("pins are setup")); 
+  Serial.println(F("pins are setup"));
 
   setupRotaryEncoder();
-  Serial.println(F("encoder is setup")); 
+  Serial.println(F("encoder is setup"));
   wheel.checkButton();
-  Serial.println(F("button is checked")); 
+  Serial.println(F("button is checked"));
 
   mission_state = CALIBRATION;
     mode->startMode();
-  Serial.println(F("setup complete")); 
+  Serial.println(F("setup complete"));
 }
 
 
 
 
 void loop() {
-  Serial.println(F("begin loop")); 
+  Serial.println(F("begin loop"));
 
   wheel.checkButton();
- 
+
   if (wheelRotation != 0) {
     mode->handleWheelRotation(wheelRotation);
     wheelRotation = 0;
   }
-  
+
   mode->updateMode();
-  
-  Serial.println(F("loop complete")); 
+
+  Serial.println(F("loop complete"));
 }
 
 
@@ -169,7 +169,7 @@ void countdown_loop() {
   frequency = (millis() - timestamp) % 1000;
   tone(SPEAKER_PIN, 150 + frequency);
 
-  
+
   lcd.setCursor(0,1);
   lcd.print(150 + frequency);
 
