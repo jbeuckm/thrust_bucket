@@ -3,6 +3,7 @@
 #include "CalibrationMode.h"
 #include "TareModeFunction.h"
 #include "CalibrateModeFunction.h"
+#include "AdvanceModeFunction.h"
 #include <math.h>
 
 CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
@@ -28,12 +29,13 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
 
   scale->set_scale(calibration_factor);
 
-  FUNCTION_COUNT = 2;
+  FUNCTION_COUNT = 3;
 
   modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
   
   modeFunctions[0] = new TareModeFunction(scale, lcd);
   modeFunctions[1] = new CalibrateModeFunction(scale, lcd);
+  modeFunctions[2] = new AdvanceModeFunction(F("[FIRE ]"), scale, lcd);
 
   Serial.println(F("CalibrationMode() complete"));
 }

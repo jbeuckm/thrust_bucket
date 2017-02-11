@@ -166,10 +166,10 @@ environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.DTS/
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.DTS/value=0
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.LOCAL/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.LOCAL/operation=replace
-environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.LOCAL/value=1486819037
+environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.LOCAL/value=1486824134
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.UTC/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.UTC/operation=replace
-environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.UTC/value=1486840637
+environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.UTC/value=1486845734
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.ZONE/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.ZONE/operation=replace
 environment/project/io.sloeber.core.toolChain.release.17728662/A.EXTRA.TIME.ZONE/value=-21600
@@ -484,7 +484,7 @@ environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.BOARD_NAME
 environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.BOARD_NAME/value=Arduino/Genuino Uno
 environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.COM_PORT/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.COM_PORT/operation=replace
-environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.COM_PORT/value=
+environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.COM_PORT/value=/dev/cu.usbmodem4171
 environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.EXTRA.C.COMPILE/delimiter=\:
 environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.EXTRA.C.COMPILE/operation=replace
 environment/project/io.sloeber.core.toolChain.release.17728662/JANTJE.EXTRA.C.COMPILE/value=

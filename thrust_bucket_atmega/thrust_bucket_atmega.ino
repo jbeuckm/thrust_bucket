@@ -19,17 +19,17 @@ HX711 scale(HX711_DOUT, HX711_CLK);
 
 #include "BaseMode.h"
 #include "CalibrationMode.h"
-BaseMode *mode;
-
+BaseMode **modes;
+int mode_index = 0;
 
 #include "RotaryEncoder.h"
 RotaryEncoder wheel(4);
 
 void buttonDown() {
-  mode->handleButtonDown();
+	modes[mode_index]->handleButtonDown();
 }
 void buttonUp() {
-  mode->handleButtonUp();
+	modes[mode_index]->handleButtonUp();
 }
 
 volatile int wheelRotation = 0;
@@ -63,17 +63,17 @@ void setupSDcard() {
   pinMode(SS, OUTPUT);
 
   if (!SD.begin(chipSelect)) {
-//    Serial.println(F("SD init failed"));
+    Serial.println(F("SD init failed"));
   }
 
   String thrustFilename = F("thrust.tsv");
 
-  //  SdFile::dateTimeCallback(dateTime);
+//  SdFile::dateTimeCallback(dateTime);
   thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
 
   if (!thrustDataFile) {
-//    Serial.print(F("error opening "));
-//    Serial.println(thrustFilename);
+    Serial.print(F("error opening "));
+    Serial.println(thrustFilename);
   }
 
   thrustDataFile.println(F("millis\tload"));
@@ -84,19 +84,6 @@ void setupSDcard() {
 
 #define SPEAKER_PIN 5
 #define IGNITER_PIN A0
-
-
-enum MISSION_STATE {
-  CALIBRATION,
-  COUNTDOWN,
-  FIRE,
-  COOLDOWN
-};
-
-
-MISSION_STATE mission_state = CALIBRATION;
-
-
 
 
 void setup() {
@@ -112,7 +99,9 @@ void setup() {
 
   lcd.begin(16, 2);
 
-  mode = new CalibrationMode(&scale, &lcd);
+  modes = (BaseMode **) malloc(2 * sizeof(BaseMode*));
+
+  modes[0] = new CalibrationMode(&scale, &lcd);
 
   pinMode(SPEAKER_PIN, OUTPUT);
   pinMode(IGNITER_PIN, OUTPUT);
@@ -124,8 +113,7 @@ void setup() {
   wheel.checkButton();
   Serial.println(F("button is checked"));
 
-  mission_state = CALIBRATION;
-    mode->startMode();
+  modes[mode_index]->startMode();
   Serial.println(F("setup complete"));
 }
 
@@ -138,11 +126,11 @@ void loop() {
   wheel.checkButton();
 
   if (wheelRotation != 0) {
-    mode->handleWheelRotation(wheelRotation);
+	modes[mode_index]->handleWheelRotation(wheelRotation);
     wheelRotation = 0;
   }
 
-  mode->updateMode();
+  modes[mode_index]->updateMode();
 
   Serial.println(F("loop complete"));
 }
@@ -162,7 +150,6 @@ void start_countdown() {
   lcd.print(F("COUNTDOWN"));
 
   timestamp = millis();
-  mission_state = COUNTDOWN;
 }
 
 void countdown_loop() {
@@ -189,7 +176,6 @@ void begin_firing() {
 
   fire_loop();
   digitalWrite(IGNITER_PIN, HIGH);
-  mission_state = FIRE;
 }
 
 void fire_loop() {
@@ -197,9 +183,9 @@ void fire_loop() {
 
   scale.read();
 
-//  thrustDataFile.print(next_millis - timestamp);
-//  thrustDataFile.print("\t");
-//  thrustDataFile.println(scale.get_units());
+  thrustDataFile.print(next_millis - timestamp);
+  thrustDataFile.print("\t");
+  thrustDataFile.println(scale.get_units());
 
   if ( (next_millis - timestamp) >= 5000) {
     finish_firing();
@@ -209,7 +195,6 @@ void fire_loop() {
 
 void finish_firing() {
 
-  mission_state = COOLDOWN;
   lcd.clear();
   lcd.setRGB(0, 0, 255);
   lcd.print(F("COOLDOWN"));
