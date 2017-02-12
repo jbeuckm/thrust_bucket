@@ -1,0 +1,50 @@
+/*
+ * CountdownMode.cpp
+ *
+ *  Created on: Feb 11, 2017
+ *      Author: joebeuckman
+ */
+
+#include "Arduino.h"
+#include "CountdownMode.h"
+#include "CancelModeFunction.h"
+
+CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
+
+  scale = _scale;
+  lcd = _lcd;
+  function_index = 0;
+
+  FUNCTION_COUNT = 1;
+
+  modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
+
+  modeFunctions[0] = new CancelModeFunction(scale, lcd);
+
+  Serial.println(F("CalibrationMode() complete"));
+}
+
+
+void CountdownMode::startMode() {
+	  lcd->setRGB(255, 0, 0);
+	  lcd->print(F("COUNTDOWN"));
+
+	  timestamp = millis();
+}
+
+
+void CountdownMode::updateMode() {
+  frequency = (millis() - timestamp) % 1000;
+  tone(SPEAKER_PIN, 150 + frequency);
+
+
+  lcd->setCursor(0,1);
+  lcd->print(150 + frequency);
+
+  if ( (millis() - timestamp) >= 10000) {
+    noTone(SPEAKER_PIN);
+  }
+
+}
+
+

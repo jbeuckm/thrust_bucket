@@ -2,7 +2,7 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2017-02-11 16:09:45
+//This file has been generated on 2017-02-11 19:24:03
 
 #include "Arduino.h"
 #include <avr/pgmspace.h>
@@ -14,22 +14,17 @@
 #define HX711_CLK  6
 #include "BaseMode.h"
 #include "CalibrationMode.h"
+#include "CountdownMode.h"
+#include "IgniteMode.h"
 #include "RotaryEncoder.h"
-#include <SD.h>
 void buttonDown() ;
 void buttonUp() ;
 void rotateWheel(int direction) ;
 void setupRotaryEncoder() ;
 void interruptA() ;
 void interruptB() ;
-void setupSDcard() ;
 void setup() ;
 void loop() ;
-void start_countdown() ;
-void countdown_loop() ;
-void begin_firing() ;
-void fire_loop() ;
-void finish_firing() ;
 
 #include "thrust_bucket_atmega.ino"
 
