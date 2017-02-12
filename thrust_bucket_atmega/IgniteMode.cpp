@@ -9,39 +9,40 @@
 #include "CancelModeFunction.h"
 
 void IgniteMode::setupSDcard() {
-  pinMode(SS, OUTPUT);
+	pinMode(IGNITER_PIN, OUTPUT);
 
-  if (!SD.begin(chipSelect)) {
-    Serial.println(F("SD init failed"));
-  }
+	pinMode(SS, OUTPUT);
 
-  String thrustFilename = F("thrust.tsv");
+	if (!SD.begin(chipSelect)) {
+		Serial.println(F("SD init failed"));
+	}
 
-//  SdFile::dateTimeCallback(dateTime);
-  thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
+	String thrustFilename = F("thrust.tsv");
 
-  if (!thrustDataFile) {
-    Serial.print(F("error opening "));
-    Serial.println(thrustFilename);
-  }
+	//  SdFile::dateTimeCallback(dateTime);
+	thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
 
-  thrustDataFile.println(F("millis\tload"));
+	if (!thrustDataFile) {
+		Serial.print(F("error opening "));
+		Serial.println(thrustFilename);
+	}
+
+	thrustDataFile.println(F("millis\tload"));
 }
 
 
 IgniteMode::IgniteMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
-	  scale = _scale;
-	  lcd = _lcd;
-	  function_index = 0;
+	scale = _scale;
+	lcd = _lcd;
+	function_index = 0;
 
-	  FUNCTION_COUNT = 1;
+	FUNCTION_COUNT = 1;
 
-	  modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
+	modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
 
-	  modeFunctions[0] = new CancelModeFunction(scale, lcd);
+	modeFunctions[0] = new CancelModeFunction(scale, lcd);
 
-	  Serial.println(F("CalibrationMode() complete"));
-
+	Serial.println(F("IgniteMode() complete"));
 }
 
 

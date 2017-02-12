@@ -21,15 +21,15 @@ CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lc
 
   modeFunctions[0] = new CancelModeFunction(scale, lcd);
 
-  Serial.println(F("CalibrationMode() complete"));
+  Serial.println(F("CountdownMode() complete"));
 }
 
 
 void CountdownMode::startMode() {
-	  lcd->setRGB(255, 0, 0);
-	  lcd->print(F("COUNTDOWN"));
+	lcd->setRGB(255, 0, 0);
+	lcd->print(F("COUNTDOWN"));
 
-	  timestamp = millis();
+	timestamp = millis();
 }
 
 

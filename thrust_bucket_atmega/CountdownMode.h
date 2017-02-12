@@ -15,7 +15,7 @@
 
 class CountdownMode: public BaseMode {
 private:
-	unsigned long timestamp;
+	unsigned long timestamp = 0;
 	int frequency;
 
 

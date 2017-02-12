@@ -12,9 +12,6 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
   lcd = _lcd;
   function_index = 0;
 
-  Serial.println(F("CalibrationMode()")); 
-  Serial.println((int)scale); 
-
   EEPROM.get(0, calibration_factor);
   
   if (isnan(calibration_factor)) {

@@ -82,7 +82,6 @@ void setup() {
 
 
   pinMode(SPEAKER_PIN, OUTPUT);
-  pinMode(IGNITER_PIN, OUTPUT);
 
   Serial.println(F("pins are setup"));
 

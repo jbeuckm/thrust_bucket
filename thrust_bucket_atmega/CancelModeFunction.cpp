@@ -13,5 +13,5 @@ CancelModeFunction::CancelModeFunction(HX711 *_scale, rgb_lcd *_lcd): BaseModeFu
 }
 
 String CancelModeFunction::getLabel() {
-  return F("[Calib]");
+  return F("[Cancl]");
 }
