@@ -19,3 +19,6 @@ void BaseModeFunction::handleButtonDown() {
 int BaseModeFunction::getChangeModeRequest() {
 	return changeModeRequest;
 }
+void BaseModeFunction::setChangeModeRequest(int _change) {
+	changeModeRequest = _change;
+}

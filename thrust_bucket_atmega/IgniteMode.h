@@ -16,7 +16,7 @@
 class IgniteMode: public BaseMode {
 private:
 	unsigned long timestamp = 0;
-	unsigned long last_millis = 0;
+	unsigned long lastMillis = 0;
 	const int chipSelect = 8;
 	File thrustDataFile;
 	void setupSDcard();

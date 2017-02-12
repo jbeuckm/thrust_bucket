@@ -26,6 +26,7 @@ public:
   virtual void handleButtonUp();
 
   int getChangeModeRequest();
+  void setChangeModeRequest(int _change);
 };
 
 #endif

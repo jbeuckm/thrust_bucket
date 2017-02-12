@@ -23,16 +23,16 @@ HX711 scale(HX711_DOUT, HX711_CLK);
 #include "IgniteMode.h"
 
 BaseMode **modes;
-int mode_index = 0;
+int modeIndex = 0;
 
 #include "RotaryEncoder.h"
 RotaryEncoder wheel(4);
 
 void buttonDown() {
-	modes[mode_index]->handleButtonDown();
+	modes[modeIndex]->handleButtonDown();
 }
 void buttonUp() {
-	modes[mode_index]->handleButtonUp();
+	modes[modeIndex]->handleButtonUp();
 }
 
 volatile int wheelRotation = 0;
@@ -79,7 +79,7 @@ void setup() {
   setupRotaryEncoder();
   wheel.checkButton();
 
-  modes[mode_index]->startMode();
+  modes[modeIndex]->startMode();
   Serial.println(F("setup complete"));
 }
 
@@ -91,17 +91,17 @@ void loop() {
   wheel.checkButton();
 
   if (wheelRotation != 0) {
-	modes[mode_index]->handleWheelRotation(wheelRotation);
+	modes[modeIndex]->handleWheelRotation(wheelRotation);
     wheelRotation = 0;
   }
 
-  int changeRequest = modes[mode_index]->updateMode();
+  int changeRequest = modes[modeIndex]->updateMode();
   if (changeRequest != 0) {
-	  mode_index += changeRequest;
-	  while (mode_index >= NUMBER_OF_MODES) mode_index -= NUMBER_OF_MODES;
-	  while (mode_index < 0) mode_index += NUMBER_OF_MODES;
+	  modeIndex += changeRequest;
+	  while (modeIndex >= NUMBER_OF_MODES) modeIndex -= NUMBER_OF_MODES;
+	  while (modeIndex < 0) modeIndex += NUMBER_OF_MODES;
 
-	  modes[mode_index]->startMode();
+	  modes[modeIndex]->startMode();
   }
 
   Serial.println(F("loop complete"));

@@ -10,7 +10,7 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
 
   scale = _scale;
   lcd = _lcd;
-  function_index = 0;
+  functionIndex = 0;
 
   EEPROM.get(0, calibration_factor);
   
@@ -59,7 +59,7 @@ int CalibrationMode::updateMode() {
 
   Serial.println(F("updateMode() complete"));
 
-  return modeFunctions[function_index]->getChangeModeRequest();
+  return modeFunctions[functionIndex]->getChangeModeRequest();
 }
 
 

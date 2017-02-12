@@ -16,9 +16,9 @@ private:
 	int direction;
 public:
 	ChangeModeFunction(String _label, int _direction);
-	virtual ~ChangeModeFunction();
 
 	String getLabel();
+	void handleButtonUp();
 };
 
 #endif /* CHANGEMODEFUNCTION_H_ */

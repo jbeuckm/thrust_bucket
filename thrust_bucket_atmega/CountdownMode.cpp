@@ -13,7 +13,7 @@ CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lc
 
   scale = _scale;
   lcd = _lcd;
-  function_index = 0;
+  functionIndex = 0;
 
   pinMode(SPEAKER_PIN, OUTPUT);
 
@@ -21,7 +21,7 @@ CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lc
 
   modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
 
-  modeFunctions[0] = new ChangeModeFunction(F("[Cancl]"), -1);
+  modeFunctions[0] = new ChangeModeFunction(F("[Cancel]"), -1);
 
   Serial.println(F("CountdownMode() complete"));
 }
@@ -48,7 +48,7 @@ int CountdownMode::updateMode() {
     return 1;
   }
 
-  return modeFunctions[function_index]->getChangeModeRequest();
+  return modeFunctions[functionIndex]->getChangeModeRequest();
 }
 
 

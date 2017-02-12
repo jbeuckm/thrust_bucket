@@ -7,7 +7,7 @@ CalibrateModeFunction::CalibrateModeFunction(HX711 *_scale, rgb_lcd *_lcd) : Bas
 }
 
 String CalibrateModeFunction::getLabel() {
-  return F("[Calib]");
+  return F("[Calibr]");
 }
 
 void CalibrateModeFunction::handleButtonDown() {
@@ -19,6 +19,7 @@ void CalibrateModeFunction::handleButtonUp() {
 }
 
 void CalibrateModeFunction::handleWheelRotation(int wheelRotation) {
+	scale->set_scale(scale->get_scale() + 10 * wheelRotation);
 }
 
 

@@ -9,6 +9,23 @@
 #include "ChangeModeFunction.h"
 
 
+IgniteMode::IgniteMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
+	scale = _scale;
+	lcd = _lcd;
+	functionIndex = 0;
+
+	FUNCTION_COUNT = 1;
+
+	modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
+
+	modeFunctions[0] = new ChangeModeFunction(F("[Cancel]"), -2);
+
+	setupSDcard();
+
+	Serial.println(F("IgniteMode() complete"));
+}
+
+
 void IgniteMode::setupSDcard() {
 	pinMode(IGNITER_PIN, OUTPUT);
 
@@ -31,20 +48,6 @@ void IgniteMode::setupSDcard() {
 	thrustDataFile.println(F("millis\tload"));
 }
 
-
-IgniteMode::IgniteMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
-	scale = _scale;
-	lcd = _lcd;
-	function_index = 0;
-
-	FUNCTION_COUNT = 1;
-
-	modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
-
-	modeFunctions[0] = new ChangeModeFunction(F("[Cancl]"), -2);
-
-	Serial.println(F("IgniteMode() complete"));
-}
 
 
 
@@ -72,15 +75,11 @@ int IgniteMode::updateMode() {
     return 1;
   }
 
-  return modeFunctions[function_index]->getChangeModeRequest();
+  return modeFunctions[functionIndex]->getChangeModeRequest();
 }
 
 
 void IgniteMode::finish() {
-
-  lcd->clear();
-  lcd->setRGB(0, 0, 255);
-  lcd->print(F("COOLDOWN"));
 
   digitalWrite(IGNITER_PIN, LOW);
 

@@ -12,9 +12,10 @@ ChangeModeFunction::ChangeModeFunction(String _label, int _direction)
 
 }
 
-ChangeModeFunction::~ChangeModeFunction() {
-}
-
 String ChangeModeFunction::getLabel() {
 	return label;
+}
+
+void ChangeModeFunction::handleButtonUp() {
+	changeModeRequest = direction;
 }

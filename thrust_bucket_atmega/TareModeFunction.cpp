@@ -7,7 +7,7 @@ TareModeFunction::TareModeFunction(HX711 *_scale, rgb_lcd *_lcd) : BaseModeFunct
 }
 
 String TareModeFunction::getLabel() {
-  return F("[TARE ]");
+  return F("[ TARE ]");
 }
 
 void TareModeFunction::handleButtonDown() {

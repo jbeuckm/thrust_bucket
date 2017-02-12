@@ -12,7 +12,7 @@ protected:
 
   BaseModeFunction **modeFunctions;
   int FUNCTION_COUNT = 0;
-  int function_index = 0;
+  int functionIndex = 0;
 
   HX711 *scale;
   rgb_lcd *lcd;

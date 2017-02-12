@@ -10,20 +10,20 @@ void BaseMode::startMode() {
 }
 
 void BaseMode::handleButtonDown() {
-  modeFunctions[function_index]->handleButtonDown();
+  modeFunctions[functionIndex]->handleButtonDown();
 }
 
 void BaseMode::handleButtonUp() {
-  modeFunctions[function_index]->handleButtonUp();
+  modeFunctions[functionIndex]->handleButtonUp();
 }
 
 void BaseMode::handleWheelRotation(int wheelRotation) {
   
-  if (modeFunctions[function_index]->trapWheelRotation) {
-    modeFunctions[function_index]->handleWheelRotation(wheelRotation);
+  if (modeFunctions[functionIndex]->trapWheelRotation) {
+    modeFunctions[functionIndex]->handleWheelRotation(wheelRotation);
   } else {
   
-    int new_index = function_index + wheelRotation;
+    int new_index = functionIndex + wheelRotation;
     while (new_index < 0) {
       new_index += FUNCTION_COUNT;
     }
@@ -31,7 +31,7 @@ void BaseMode::handleWheelRotation(int wheelRotation) {
       new_index -= FUNCTION_COUNT;
     }
 
-    function_index = new_index;
+    functionIndex = new_index;
     showFunctionName();
 
   }
@@ -40,6 +40,6 @@ void BaseMode::handleWheelRotation(int wheelRotation) {
 
 void BaseMode::showFunctionName() {
   lcd->setCursor(8,1);
-  lcd->print(modeFunctions[function_index]->getLabel());
+  lcd->print(modeFunctions[functionIndex]->getLabel());
 }
 
