@@ -6,7 +6,8 @@
  */
 
 #include "IgniteMode.h"
-#include "CancelModeFunction.h"
+#include "ChangeModeFunction.h"
+
 
 void IgniteMode::setupSDcard() {
 	pinMode(IGNITER_PIN, OUTPUT);
@@ -40,7 +41,7 @@ IgniteMode::IgniteMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
 
 	modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
 
-	modeFunctions[0] = new CancelModeFunction(scale, lcd);
+	modeFunctions[0] = new ChangeModeFunction(F("[Cancl]"), -2);
 
 	Serial.println(F("IgniteMode() complete"));
 }

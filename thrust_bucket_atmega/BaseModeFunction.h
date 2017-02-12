@@ -14,6 +14,7 @@ protected:
 public:
   bool trapWheelRotation;
 
+  BaseModeFunction();
   BaseModeFunction(HX711 *_scale, rgb_lcd *_lcd);
 
   virtual String getLabel() = 0;

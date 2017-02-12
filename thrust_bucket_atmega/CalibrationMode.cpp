@@ -1,10 +1,10 @@
 #include <EEPROM.h>
+#include <math.h>
 
 #include "CalibrationMode.h"
 #include "TareModeFunction.h"
 #include "CalibrateModeFunction.h"
-#include "AdvanceModeFunction.h"
-#include <math.h>
+#include "ChangeModeFunction.h"
 
 CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
 
@@ -35,7 +35,7 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
   
   modeFunctions[0] = new TareModeFunction(scale, lcd);
   modeFunctions[1] = new CalibrateModeFunction(scale, lcd);
-  modeFunctions[2] = new AdvanceModeFunction(F("[FIRE ]"), scale, lcd);
+  modeFunctions[2] = new ChangeModeFunction(F("[FIRE ]"), 1);
 
   Serial.println(F("CalibrationMode() complete"));
 }

@@ -7,7 +7,7 @@
 
 #include "Arduino.h"
 #include "CountdownMode.h"
-#include "CancelModeFunction.h"
+#include "ChangeModeFunction.h"
 
 CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lcd) {
 
@@ -21,7 +21,7 @@ CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lc
 
   modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
 
-  modeFunctions[0] = new CancelModeFunction(scale, lcd);
+  modeFunctions[0] = new ChangeModeFunction(F("[Cancl]"), -1);
 
   Serial.println(F("CountdownMode() complete"));
 }

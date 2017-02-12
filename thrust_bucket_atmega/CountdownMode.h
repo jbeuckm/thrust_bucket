@@ -9,7 +9,6 @@
 #define COUNTDOWNMODE_H_
 
 #include "BaseMode.h"
-#include "CancelModeFunction.h"
 
 #define SPEAKER_PIN 5
 

@@ -57,8 +57,6 @@ void interruptB() {
 }
 
 
-
-
 void setup() {
 
   Serial.begin(9600);
@@ -87,7 +85,6 @@ void setup() {
 
 
 
-
 void loop() {
   Serial.println(F("begin loop"));
 
@@ -98,7 +95,10 @@ void loop() {
     wheelRotation = 0;
   }
 
-  modes[mode_index]->updateMode();
+  int changeRequest = modes[mode_index]->updateMode();
+  if (changeRequest != 0) {
+	  mode_index += changeRequest;
+  }
 
   Serial.println(F("loop complete"));
 }
