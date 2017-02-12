@@ -35,7 +35,7 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
   
   modeFunctions[0] = new TareModeFunction(scale, lcd);
   modeFunctions[1] = new CalibrateModeFunction(scale, lcd);
-  modeFunctions[2] = new ChangeModeFunction(F("[FIRE ]"), 1);
+  modeFunctions[2] = new ChangeModeFunction(F("[!FIRE!]"), 1);
 
   Serial.println(F("CalibrationMode() complete"));
 }
