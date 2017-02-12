@@ -14,7 +14,7 @@ void BaseMode::zeroModeChangeRequests() {
 
 void BaseMode::startMode() {
 	zeroModeChangeRequests();
-	modeIndex = 0;
+	functionIndex = 0;
 	showFunctionName();
 }
 

@@ -45,7 +45,7 @@ void IgniteMode::setupSDcard() {
 		Serial.println(thrustFilename);
 	}
 
-	thrustDataFile.println(F("millis\tload"));
+	thrustDataFile.println(F("millis\traw\tload"));
 }
 
 
@@ -68,9 +68,13 @@ int IgniteMode::updateMode() {
 
   unsigned long next_millis = millis();
 
+  double value = scale->get_value(1);
+
   thrustDataFile.print(next_millis - timestamp);
   thrustDataFile.print("\t");
-  thrustDataFile.println(scale->get_units());
+  thrustDataFile.println(value);
+  thrustDataFile.print("\t");
+  thrustDataFile.println(value / scale->get_scale());
 
   if ( (next_millis - timestamp) >= 5000) {
     finish();
