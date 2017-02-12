@@ -5,8 +5,17 @@ BaseMode::BaseMode(HX711 *_scale, rgb_lcd *_lcd) {
   lcd = _lcd;
 }
 
+void BaseMode::zeroModeChangeRequests() {
+	for (int i=0; i<FUNCTION_COUNT; i++) {
+		modeFunctions[i]->setChangeModeRequest(0);
+	}
+}
+
+
 void BaseMode::startMode() {
-  showFunctionName();
+	zeroModeChangeRequests();
+	modeIndex = 0;
+	showFunctionName();
 }
 
 void BaseMode::handleButtonDown() {

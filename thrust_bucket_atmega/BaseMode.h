@@ -20,6 +20,7 @@ protected:
 
 public:
   BaseMode(HX711 *_scale, rgb_lcd *_lcd);
+  void zeroModeChangeRequests();
   virtual void startMode();
   virtual int updateMode() = 0;
   void handleWheelRotation(int wheelRotation);

@@ -52,6 +52,8 @@ void IgniteMode::setupSDcard() {
 
 
 void IgniteMode::startMode() {
+	BaseMode::startMode();
+
 	lcd->clear();
 	lcd->setRGB(255, 0, 0);
 	lcd->print(F("FIRING!!!"));
