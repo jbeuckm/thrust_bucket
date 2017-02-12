@@ -56,6 +56,8 @@ void interruptB() {
   wheel.PinB();
 }
 
+int NUMBER_OF_MODES = 3;
+
 
 void setup() {
 
@@ -66,8 +68,6 @@ void setup() {
   scale.tare(); //Reset the scale to 0
 
   lcd.begin(16, 2);
-
-  int NUMBER_OF_MODES = 3;
 
   modes = (BaseMode **) malloc(NUMBER_OF_MODES * sizeof(BaseMode*));
 
@@ -98,6 +98,10 @@ void loop() {
   int changeRequest = modes[mode_index]->updateMode();
   if (changeRequest != 0) {
 	  mode_index += changeRequest;
+	  while (mode_index >= NUMBER_OF_MODES) mode_index -= NUMBER_OF_MODES;
+	  while (mode_index < 0) mode_index += NUMBER_OF_MODES;
+
+	  modes[mode_index]->startMode();
   }
 
   Serial.println(F("loop complete"));

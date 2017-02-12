@@ -72,7 +72,7 @@ int IgniteMode::updateMode() {
     return 1;
   }
 
-  return 0;
+  return modeFunctions[function_index]->getChangeModeRequest();
 }
 
 

@@ -59,7 +59,7 @@ int CalibrationMode::updateMode() {
 
   Serial.println(F("updateMode() complete"));
 
-  return 0;
+  return modeFunctions[function_index]->getChangeModeRequest();
 }
 
 

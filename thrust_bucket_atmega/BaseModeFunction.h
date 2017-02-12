@@ -11,6 +11,8 @@ protected:
   HX711 *scale;
   rgb_lcd *lcd;
 
+  int changeModeRequest = 0;
+
 public:
   bool trapWheelRotation;
 
@@ -22,6 +24,8 @@ public:
   virtual void handleWheelRotation(int wheelRotation);
   virtual void handleButtonDown();
   virtual void handleButtonUp();
+
+  int getChangeModeRequest();
 };
 
 #endif

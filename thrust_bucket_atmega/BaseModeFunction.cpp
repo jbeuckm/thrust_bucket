@@ -16,3 +16,6 @@ void BaseModeFunction::handleButtonUp() {
 void BaseModeFunction::handleButtonDown() {
 }
 
+int BaseModeFunction::getChangeModeRequest() {
+	return changeModeRequest;
+}
