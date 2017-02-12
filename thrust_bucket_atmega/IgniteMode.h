@@ -25,7 +25,7 @@ private:
 public:
 	IgniteMode(HX711 *_scale, rgb_lcd *_lcd);
 	virtual void startMode();
-	virtual void updateMode();
+	virtual int updateMode();
 };
 
 #endif /* IGNITEMODE_H_ */

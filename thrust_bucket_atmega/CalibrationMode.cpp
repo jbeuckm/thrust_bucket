@@ -25,6 +25,9 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
   }
 
   scale->set_scale(calibration_factor);
+  scale->tare();
+//  long zero_factor = scale->read_average(); //Get a baseline reading
+
 
   FUNCTION_COUNT = 3;
 
@@ -43,11 +46,10 @@ void CalibrationMode::startMode() {
   lcd->print(F("Calibrating..."));
 
   showFunctionName();
-  
 }
 
 
-void CalibrationMode::updateMode() {
+int CalibrationMode::updateMode() {
   Serial.println(F("updateMode()")); 
 
   float measured = scale->get_units();
@@ -55,7 +57,9 @@ void CalibrationMode::updateMode() {
   lcd->setCursor(0,1);  
   lcd->print(measured);
 
-  Serial.println(F("updateMode() complete")); 
+  Serial.println(F("updateMode() complete"));
+
+  return 0;
 }
 
 

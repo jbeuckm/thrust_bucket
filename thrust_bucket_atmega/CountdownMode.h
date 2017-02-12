@@ -16,13 +16,13 @@
 class CountdownMode: public BaseMode {
 private:
 	unsigned long timestamp = 0;
-	int frequency;
+	int frequency = 0;
 
 
 public:
 	CountdownMode(HX711 *_scale, rgb_lcd *_lcd);
 	virtual void startMode();
-	virtual void updateMode();
+	virtual int updateMode();
 };
 
 #endif /* COUNTDOWNMODE_H_ */

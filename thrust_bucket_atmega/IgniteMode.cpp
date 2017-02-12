@@ -58,7 +58,7 @@ void IgniteMode::startMode() {
 }
 
 
-void IgniteMode::updateMode() {
+int IgniteMode::updateMode() {
 
   unsigned long next_millis = millis();
 
@@ -68,7 +68,10 @@ void IgniteMode::updateMode() {
 
   if ( (next_millis - timestamp) >= 5000) {
     finish();
+    return 1;
   }
+
+  return 0;
 }
 
 

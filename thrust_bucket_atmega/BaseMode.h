@@ -11,8 +11,8 @@ protected:
   void showFunctionName();
 
   BaseModeFunction **modeFunctions;
-  int FUNCTION_COUNT;
-  int function_index;
+  int FUNCTION_COUNT = 0;
+  int function_index = 0;
 
   HX711 *scale;
   rgb_lcd *lcd;
@@ -21,7 +21,7 @@ protected:
 public:
   BaseMode(HX711 *_scale, rgb_lcd *_lcd);
   virtual void startMode();
-  virtual void updateMode() = 0;
+  virtual int updateMode() = 0;
   void handleWheelRotation(int wheelRotation);
   void handleButtonDown();
   void handleButtonUp();

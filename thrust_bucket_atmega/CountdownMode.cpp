@@ -15,6 +15,8 @@ CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lc
   lcd = _lcd;
   function_index = 0;
 
+  pinMode(SPEAKER_PIN, OUTPUT);
+
   FUNCTION_COUNT = 1;
 
   modeFunctions = (BaseModeFunction **) malloc(FUNCTION_COUNT * sizeof(BaseModeFunction*));
@@ -33,7 +35,7 @@ void CountdownMode::startMode() {
 }
 
 
-void CountdownMode::updateMode() {
+int CountdownMode::updateMode() {
   frequency = (millis() - timestamp) % 1000;
   tone(SPEAKER_PIN, 150 + frequency);
 
@@ -43,8 +45,10 @@ void CountdownMode::updateMode() {
 
   if ( (millis() - timestamp) >= 10000) {
     noTone(SPEAKER_PIN);
+    return 1;
   }
 
+  return 0;
 }
 
 

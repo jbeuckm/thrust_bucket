@@ -63,12 +63,9 @@ void setup() {
 
   Serial.begin(9600);
   Serial.println(F("setup()"));
-  Serial.println((int)&scale);
 
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
-
-//  long zero_factor = scale.read_average(); //Get a baseline reading
 
   lcd.begin(16, 2);
 
@@ -81,14 +78,8 @@ void setup() {
   modes[2] = new IgniteMode(&scale, &lcd);
 
 
-  pinMode(SPEAKER_PIN, OUTPUT);
-
-  Serial.println(F("pins are setup"));
-
   setupRotaryEncoder();
-  Serial.println(F("encoder is setup"));
   wheel.checkButton();
-  Serial.println(F("button is checked"));
 
   modes[mode_index]->startMode();
   Serial.println(F("setup complete"));
