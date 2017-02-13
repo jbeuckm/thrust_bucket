@@ -52,7 +52,6 @@ void IgniteMode::setupSDcard() {
 
 
 void IgniteMode::startMode() {
-	BaseMode::startMode();
 
 	lcd->clear();
 	lcd->setRGB(255, 0, 0);
@@ -61,6 +60,7 @@ void IgniteMode::startMode() {
 	timestamp = millis();
 
 	digitalWrite(IGNITER_PIN, HIGH);
+	BaseMode::startMode();
 }
 
 

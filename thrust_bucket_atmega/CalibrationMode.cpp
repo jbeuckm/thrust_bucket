@@ -42,11 +42,11 @@ CalibrationMode::CalibrationMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale,
 
 void CalibrationMode::startMode() {
 
-	BaseMode::startMode();
-
 	lcd->clear();
 	lcd->setRGB(0, 255, 0);
 	lcd->print(F("Calibrating..."));
+
+	BaseMode::startMode();
 }
 
 

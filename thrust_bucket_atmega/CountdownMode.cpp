@@ -28,7 +28,6 @@ CountdownMode::CountdownMode(HX711 *_scale, rgb_lcd *_lcd): BaseMode(_scale, _lc
 
 
 void CountdownMode::startMode() {
-	BaseMode::startMode();
 
 	lcd->clear();
 	lcd->setRGB(255, 0, 0);
@@ -36,6 +35,7 @@ void CountdownMode::startMode() {
 
 	timestamp = millis();
 
+	BaseMode::startMode();
 }
 
 

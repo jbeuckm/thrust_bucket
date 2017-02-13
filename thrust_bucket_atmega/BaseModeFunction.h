@@ -14,7 +14,7 @@ protected:
   int changeModeRequest = 0;
 
 public:
-  bool trapWheelRotation;
+  bool trapWheelRotation = false;
 
   BaseModeFunction();
   BaseModeFunction(HX711 *_scale, rgb_lcd *_lcd);

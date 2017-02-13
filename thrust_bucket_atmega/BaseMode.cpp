@@ -3,6 +3,7 @@
 BaseMode::BaseMode(HX711 *_scale, rgb_lcd *_lcd) {
   scale = _scale;
   lcd = _lcd;
+  functionIndex = 0;
 }
 
 void BaseMode::zeroModeChangeRequests() {
