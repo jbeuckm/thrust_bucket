@@ -54,13 +54,15 @@ void IgniteMode::setupSDcard() {
 void IgniteMode::startMode() {
 
 	lcd->clear();
-	lcd->setRGB(255, 0, 0);
+	lcd->setRGB(255, 200, 0);
 	lcd->print(F("FIRING!!!"));
 
-	timestamp = millis();
-
-	digitalWrite(IGNITER_PIN, HIGH);
 	BaseMode::startMode();
+
+	timestamp = millis();
+	updateMode();
+	digitalWrite(IGNITER_PIN, HIGH);
+	timestamp = millis();
 }
 
 
@@ -72,7 +74,7 @@ int IgniteMode::updateMode() {
 
   thrustDataFile.print(next_millis - timestamp);
   thrustDataFile.print("\t");
-  thrustDataFile.println(value);
+  thrustDataFile.print(value);
   thrustDataFile.print("\t");
   thrustDataFile.println(value / scale->get_scale());
 
@@ -81,7 +83,11 @@ int IgniteMode::updateMode() {
     return 1;
   }
 
-  return modeFunctions[functionIndex]->getChangeModeRequest();
+  int change = modeFunctions[functionIndex]->getChangeModeRequest();
+  if (change != 0) {
+	  finish();
+  }
+  return change;
 }
 
 

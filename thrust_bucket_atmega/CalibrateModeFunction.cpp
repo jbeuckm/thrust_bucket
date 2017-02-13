@@ -16,10 +16,19 @@ void CalibrateModeFunction::handleButtonDown() {
 
 void CalibrateModeFunction::handleButtonUp() {
   trapWheelRotation = false;
+
+  lcd->setCursor(0, 0);
+  lcd->print(F("Calibrating..."));
 }
 
 void CalibrateModeFunction::handleWheelRotation(int wheelRotation) {
-	scale->set_scale(scale->get_scale() + 10 * wheelRotation);
+
+	int newScale = scale->get_scale() + 10 * wheelRotation;
+
+	scale->set_scale(newScale);
+
+	lcd->setCursor(0, 0);
+	lcd->print(newScale);
 }
 
 

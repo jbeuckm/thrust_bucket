@@ -53,7 +53,7 @@ void CalibrationMode::startMode() {
 int CalibrationMode::updateMode() {
   Serial.println(F("updateMode()")); 
 
-  float measured = scale->get_units();
+  float measured = scale->get_units(4);
 
   lcd->setCursor(0,1);  
   lcd->print(measured);
