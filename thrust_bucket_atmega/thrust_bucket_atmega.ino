@@ -86,7 +86,6 @@ void setup() {
 
 
 void loop() {
-  Serial.println(F("begin loop"));
 
   wheel.checkButton();
 
@@ -96,6 +95,7 @@ void loop() {
   }
 
   int changeRequest = modes[modeIndex]->updateMode();
+
   if (changeRequest != 0) {
 	  modeIndex += changeRequest;
 	  while (modeIndex >= NUMBER_OF_MODES) modeIndex -= NUMBER_OF_MODES;
@@ -104,7 +104,6 @@ void loop() {
 	  modes[modeIndex]->startMode();
   }
 
-  Serial.println(F("loop complete"));
 }
 
 

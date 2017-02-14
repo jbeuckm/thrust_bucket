@@ -69,25 +69,22 @@ void IgniteMode::startMode() {
 int IgniteMode::updateMode() {
 
   unsigned long next_millis = millis();
+  int elapsed = next_millis - timestamp;
 
   double value = scale->get_value(1);
 
-  thrustDataFile.print(next_millis - timestamp);
+  thrustDataFile.print(elapsed);
   thrustDataFile.print("\t");
   thrustDataFile.print(value);
   thrustDataFile.print("\t");
   thrustDataFile.println(value / scale->get_scale());
 
-  if ( (next_millis - timestamp) >= 5000) {
+  if ( elapsed >= 5000) {
     finish();
     return 1;
   }
 
-  int change = modeFunctions[functionIndex]->getChangeModeRequest();
-  if (change != 0) {
-	  finish();
-  }
-  return change;
+  return 0;
 }
 
 
