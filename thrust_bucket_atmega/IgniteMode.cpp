@@ -35,7 +35,7 @@ void IgniteMode::setupSDcard() {
 		Serial.println(F("SD init failed"));
 	}
 
-	String thrustFilename = F("thrust.tsv");
+	String thrustFilename = findNextFilename();
 
 	//  SdFile::dateTimeCallback(dateTime);
 	thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
@@ -49,6 +49,21 @@ void IgniteMode::setupSDcard() {
 }
 
 
+String IgniteMode::findNextFilename() {
+
+	String prefix = F("thrust");
+	String suffix = F(".tsv");
+
+	String filename;
+
+	int cardinal = 0;
+	do {
+		filename = prefix + cardinal + suffix;
+		cardinal++;
+	} while (SD.exists(filename));
+
+	return filename;
+}
 
 
 void IgniteMode::startMode() {
@@ -90,8 +105,26 @@ int IgniteMode::updateMode() {
 
 void IgniteMode::finish() {
 
-  digitalWrite(IGNITER_PIN, LOW);
+	digitalWrite(IGNITER_PIN, LOW);
 
-  thrustDataFile.flush();
-  thrustDataFile.close();
+	thrustDataFile.flush();
+
+	String filename = thrustDataFile.name();
+
+	thrustDataFile.close();
+
+	thrustDataFile = SD.open(filename);
+
+	lcd->clear();
+	lcd->setRGB(0, 0, 200);
+
+	lcd->setCursor(0, 0);
+	lcd->print(filename);
+
+	String size = ""+thrustDataFile.size();
+
+	lcd->setCursor(0, 1);
+	lcd->print("wrote "+size+" bytes.");
+
+	delay(5000);
 }

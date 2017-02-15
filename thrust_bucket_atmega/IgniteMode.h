@@ -21,11 +21,12 @@ private:
 	File thrustDataFile;
 	void setupSDcard();
 	void finish();
+	String findNextFilename();
 
 public:
 	IgniteMode(HX711 *_scale, rgb_lcd *_lcd);
-	virtual void startMode();
-	virtual int updateMode();
+	void startMode();
+	int updateMode();
 };
 
 #endif /* IGNITEMODE_H_ */
