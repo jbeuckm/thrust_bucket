@@ -18,6 +18,7 @@ private:
 	unsigned long timestamp = 0;
 	unsigned long lastMillis = 0;
 	const int chipSelect = 8;
+	String thrustDataFilename;
 	File thrustDataFile;
 	void setupSDcard();
 	void finish();

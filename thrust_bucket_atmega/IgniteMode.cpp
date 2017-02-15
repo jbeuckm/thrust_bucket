@@ -35,14 +35,14 @@ void IgniteMode::setupSDcard() {
 		Serial.println(F("SD init failed"));
 	}
 
-	String thrustFilename = findNextFilename();
+	thrustDataFilename = findNextFilename();
 
 	//  SdFile::dateTimeCallback(dateTime);
-	thrustDataFile = SD.open(thrustFilename, O_WRITE | O_CREAT | O_TRUNC);
+	thrustDataFile = SD.open(thrustDataFilename, O_WRITE | O_CREAT | O_TRUNC);
 
 	if (!thrustDataFile) {
 		Serial.print(F("error opening "));
-		Serial.println(thrustFilename);
+		Serial.println(thrustDataFilename);
 	}
 
 	thrustDataFile.println(F("millis\traw\tload"));
@@ -108,23 +108,22 @@ void IgniteMode::finish() {
 	digitalWrite(IGNITER_PIN, LOW);
 
 	thrustDataFile.flush();
-
-	String filename = thrustDataFile.name();
-
 	thrustDataFile.close();
 
 	lcd->clear();
 	lcd->setRGB(0, 0, 200);
 
 	lcd->setCursor(0, 0);
-	lcd->print(filename);
+	lcd->print(thrustDataFilename);
 
-	thrustDataFile = SD.open(filename);
-	String size = ""+thrustDataFile.size();
+	thrustDataFile = SD.open(thrustDataFilename);
+	int size = thrustDataFile.size();
 	thrustDataFile.close();
 
 	lcd->setCursor(0, 1);
-	lcd->print("wrote "+size+" bytes.");
+	lcd->print("wrote ");
+	lcd->print(size);
+	lcd->print(" bytes.");
 
 	delay(5000);
 }
