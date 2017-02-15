@@ -113,15 +113,15 @@ void IgniteMode::finish() {
 
 	thrustDataFile.close();
 
-	thrustDataFile = SD.open(filename);
-
 	lcd->clear();
 	lcd->setRGB(0, 0, 200);
 
 	lcd->setCursor(0, 0);
 	lcd->print(filename);
 
+	thrustDataFile = SD.open(filename);
 	String size = ""+thrustDataFile.size();
+	thrustDataFile.close();
 
 	lcd->setCursor(0, 1);
 	lcd->print("wrote "+size+" bytes.");
