@@ -68,5 +68,27 @@
             .attr("stroke-linecap", "round")
             .attr("stroke-width", 1.5)
             .attr("d", line);
+        
+        g.append("g")
+            .append("text")
+            .attr("fill", "#000")
+            .attr("x", 100)
+            .attr("y", 200)
+            .attr("dy", "0.71em")
+            .text("Impulse = "+computeImpulse(data).toFixed(2)+" lb*sec");
+        
+        var impulse = computeImpulse(data);
+        console.log('impulse = '+impulse);
     });
+    
+    
+    function computeImpulse(data) {
+        var impulse = 0;
+        for (var i=1, l=data.length; i<l; i++) {   
+            var interval = .001 * (data[i].millis-data[i-1].millis);
+            impulse += interval * data[i-1].load;
+        }
+        return impulse;
+    }
+    
 </script>
