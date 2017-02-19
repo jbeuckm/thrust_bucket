@@ -9,6 +9,11 @@ Based on the ["Ultra Simple Bucket Stand"](http://aeroconsystems.com/cart/test-s
 * FET to light the igniter
 
 
+2/19/17 Motor holder bolted on
+
+![motor holder](img/motor_holder.jpg)
+
+
 2/9/17 Status: Loadcell Mounted on I-Beam
 
 ![loadcell mounted](img/loadcell_mounted.jpg)
