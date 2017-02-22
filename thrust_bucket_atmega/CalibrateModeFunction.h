@@ -1,7 +1,7 @@
 #include "BaseModeFunction.h"
 
 #define CALIB_ADJUST_BALLPARK 100
-#define CALIB_ADJUST_FINE 10
+#define CALIB_ADJUST_FINE 1
 
 class CalibrateModeFunction : public BaseModeFunction {
 

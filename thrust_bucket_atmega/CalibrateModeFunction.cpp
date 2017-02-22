@@ -1,4 +1,5 @@
 #include "CalibrateModeFunction.h"
+#include <EEPROM.h>
 
 CalibrateModeFunction::CalibrateModeFunction(HX711 *_scale, rgb_lcd *_lcd) :
 		BaseModeFunction(_scale, _lcd) {
@@ -17,6 +18,10 @@ void CalibrateModeFunction::handleButtonDown() {
 		trapWheelRotation = false;
 		lcd->setCursor(0, 0);
 		lcd->print(F("Calibrating..."));
+
+		float calibration_factor = scale->get_scale();
+	    EEPROM.put(0, calibration_factor);
+
 	} else {
 		trapWheelRotation = true;
 		adjustmentSize = CALIB_ADJUST_BALLPARK;
