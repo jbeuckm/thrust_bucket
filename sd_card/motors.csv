@@ -1,0 +1,24 @@
+Class,Total Impulse (N·s),Total Impulse (lbf·s),Aerospace Vehicle,US Requirements
+Micro,0–0.3125,0–0.07,,
+1/4A,0.3126–0.625,0.071–0.14,,
+1/2A,0.626–1.25,0.141–0.28,,
+A,1.26–2.50,0.281–0.56,,
+B,2.51–5.00,0.561–1.12,,
+C,5.01–10.0,1.121–2.25,,
+D,10.01–20.0,2.251–4.5,,
+E,20.01–40.0,4.51–8.99,,
+F,40.01–80.0,8.991-18.0,,
+G,80.01–160,18.01-36.0,,Largest model rocket motor according to TRA and NAR.
+H,160.01–320,36.01-71.9,,"Level 1 Certification required from Tripoli or NAR, if you join those clubs."
+,,,,Under 125g propellant is Federal Aviation Administration exempt.
+I,320–640,71.9–144,,
+J,"640–1,280",144-288,,"Level 2 Certification required from Tripoli or NAR, if you join those clubs."
+K,"1,280–2,560",288-576,,
+L,"2,560–5,120","576-1,150",,
+M,"5,120–10,240","1,150-2,300",,"Level 3 Certification required from Tripoli or NAR, if you join those clubs."
+N,"10,240–20,560","2,300-4,600",,
+O,"20,560–40,960","4,600-9,210",,
+P,"40,960–81,920","9,210-18,400",,FAA/AST Permit or License required.
+Q,"81,920–163,840","18,400-36,800",,
+R,"163,840–327,680","36,800-73,700",,
+S,"327,680–655,360","73,700-147,000",WAC Corporal,Largest motor used by amateurs.
