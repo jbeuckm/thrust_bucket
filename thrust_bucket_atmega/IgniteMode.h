@@ -24,6 +24,8 @@ private:
 	void finish();
 	String findNextFilename();
 
+	void writeDirectoryCsv();
+
 public:
 	IgniteMode(HX711 *_scale, rgb_lcd *_lcd);
 	void startMode();

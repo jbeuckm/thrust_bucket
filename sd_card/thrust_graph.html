@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+
+<select id="selected-test" onChange="select()">
+</select>
+
+<br>
+
 <svg width="960" height="500"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -10,9 +16,9 @@
             left: 50
         },
         width = +svg.attr("width") - margin.left - margin.right,
-        height = +svg.attr("height") - margin.top - margin.bottom,
-        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+        height = +svg.attr("height") - margin.top - margin.bottom;
+var g;
+    
     var parseTime = d3.timeParse("%S.%L");
 
     var x = d3.scaleTime()
@@ -29,66 +35,98 @@
             return y(d.load);
         });
 
-    d3.tsv("THRUST.TSV", function (d) {
-        d.date = parseTime(Math.floor(d.millis / 1000) + "." + (d.millis % 1000));
-        d.load = +d.load;
-        return d;
-    }, function (error, data) {
-        if (error) throw error;
-
-        x.domain(d3.extent(data, function (d) {
-            return d.date;
-        }));
-        y.domain(d3.extent(data, function (d) {
-            return d.load;
-        }));
-
-        g.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x)
-                  .tickFormat(d3.timeFormat("%S.%L")))
-            .select(".domain")
-            .remove();
-
-        g.append("g")
-            .call(d3.axisLeft(y))
-            .append("text")
-            .attr("fill", "#000")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "0.71em")
-            .attr("text-anchor", "end")
-            .text("Pounds");
-
-        g.append("path")
-            .datum(data)
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-linejoin", "round")
-            .attr("stroke-linecap", "round")
-            .attr("stroke-width", 1.5)
-            .attr("d", line);
+    var testSelector;
+    
+    d3.text("TESTS.CSV", function (d) {
+        console.log(d);
+        testSelector = d3.select("#selected-test");
+        d = d.split("\n").reverse();
         
-        g.append("g")
-            .append("text")
-            .attr("fill", "#000")
-            .attr("x", 100)
-            .attr("y", 200)
-            .attr("dy", "0.71em")
-            .text("Impulse = "+computeImpulse(data).toFixed(2)+" lb*sec");
+        d = d.filter(function(test){ return test != ""; });
         
-        var impulse = computeImpulse(data);
-        console.log('impulse = '+impulse);
+        d.forEach(function (test) {
+            
+            testSelector.append('option')
+                .attr("value", test)
+                .text(test);
+        });
+
+        testSelector.property('value', d[0]);
+        showTest(d[0]);
+        
     });
-    
-    
+
+    function select() {
+        console.log("select...")
+        console.log(testSelector.property('value'))
+        showTest(testSelector.property('value'));
+    }
+
+    function showTest(testFile) {
+
+        if (g)
+        g.remove();
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        d3.tsv(testFile, function (d) {
+            d.date = parseTime(Math.floor(d.millis / 1000) + "." + (d.millis % 1000));
+            d.load = +d.load;
+            return d;
+        }, function (error, data) {
+            if (error) throw error;
+
+            x.domain(d3.extent(data, function (d) {
+                return d.date;
+            }));
+            y.domain(d3.extent(data, function (d) {
+                return d.load;
+            }));
+
+            g.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x)
+                    .tickFormat(d3.timeFormat("%S.%L")))
+                .select(".domain")
+                .remove();
+
+            g.append("g")
+                .call(d3.axisLeft(y))
+                .append("text")
+                .attr("fill", "#000")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", "0.71em")
+                .attr("text-anchor", "end")
+                .text("Pounds");
+
+            g.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-linejoin", "round")
+                .attr("stroke-linecap", "round")
+                .attr("stroke-width", 1.5)
+                .attr("d", line);
+
+            g.append("g")
+                .append("text")
+                .attr("fill", "#000")
+                .attr("x", 100)
+                .attr("y", 200)
+                .attr("dy", "0.71em")
+                .text("Impulse = " + computeImpulse(data).toFixed(2) + " lb*sec");
+
+            var impulse = computeImpulse(data);
+            console.log('impulse = ' + impulse);
+        });
+    }
+
     function computeImpulse(data) {
         var impulse = 0;
-        for (var i=1, l=data.length; i<l; i++) {   
-            var interval = .001 * (data[i].millis-data[i-1].millis);
-            impulse += interval * data[i-1].load;
+        for (var i = 1, l = data.length; i < l; i++) {
+            var interval = .001 * (data[i].millis - data[i - 1].millis);
+            impulse += interval * data[i - 1].load;
         }
         return impulse;
     }
-    
 </script>

@@ -51,8 +51,8 @@ void IgniteMode::setupSDcard() {
 
 String IgniteMode::findNextFilename() {
 
-	String prefix = F("thrust");
-	String suffix = F(".tsv");
+	String prefix = F("THRUST");
+	String suffix = F(".TSV");
 
 	String filename;
 
@@ -125,5 +125,34 @@ void IgniteMode::finish() {
 	lcd->print(size);
 	lcd->print(" bytes.");
 
-	delay(5000);
+	writeDirectoryCsv();
+
+	delay(10000);
 }
+
+
+void IgniteMode::writeDirectoryCsv() {
+
+	File dirFile = SD.open("TESTS.CSV", O_WRITE | O_CREAT | O_TRUNC);
+
+	String prefix = F("THRUST");
+	String suffix = F(".TSV");
+
+	String filename;
+
+	int cardinal = 0;
+	while (true) {
+		filename = prefix + cardinal + suffix;
+
+		if (SD.exists(filename)) {
+			dirFile.println(filename);
+		} else {
+			break;
+		}
+
+		cardinal++;
+	}
+
+	dirFile.close();
+}
+
