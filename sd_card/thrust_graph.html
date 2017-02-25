@@ -84,7 +84,9 @@
         if (classes) {
             classes.remove();
         }
-        classes = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        classes = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("opacity", .5);
 
         if (g) {
             g.remove();
@@ -148,18 +150,31 @@
                 })
                 .attr("y", function (d) {
                     console.log(y);
-                    return y(d.low_lbs);
+                    return y(d.high_lbs);
                 })
                 .attr("width", function (d) {
                     console.log();
                     return x.range()[1];
                 })
                 .attr("height", function (d) {
-                    return 1;
+                    return y(d.low_lbs) - y(d.high_lbs);
                 })
-            .attr("fill", function(d){
-return motorClassColor(d.Class);
-            });
+                .attr("fill", function(d){
+                    return motorClassColor(d.Class);
+                })
+            
+            classes.selectAll("rect.motor-class-label")
+                .data(motors)
+                .enter()
+                .append("text").text(function(d){ return d.Class; })
+                .attr("class", "motor-class-label")
+                .attr("x", function (d) {
+                    return x.range()[1];
+                })
+                .attr("y", function (d) {
+                    console.log(y);
+                    return (y(d.high_lbs) + y(d.low_lbs)) / 2;
+                })
 
             var impulse = computeImpulse(data);
             console.log('impulse = ' + impulse);
