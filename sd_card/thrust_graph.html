@@ -17,8 +17,8 @@
         },
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
-var g;
-    
+    var g, classes;
+
     var parseTime = d3.timeParse("%S.%L");
 
     var x = d3.scaleTime()
@@ -36,24 +36,39 @@ var g;
         });
 
     var testSelector;
-    
-    d3.text("TESTS.CSV", function (d) {
-        console.log(d);
-        testSelector = d3.select("#selected-test");
-        d = d.split("\n").reverse();
-        
-        d = d.filter(function(test){ return test != ""; });
-        
-        d.forEach(function (test) {
-            
-            testSelector.append('option')
-                .attr("value", test)
-                .text(test);
-        });
+        var motorClassColor = d3.scaleOrdinal(d3.schemeCategory20);
 
-        testSelector.property('value', d[0]);
-        showTest(d[0]);
+
+    d3.csv("motors.csv", function (motors) {
+
+        motors = motors.map(function (motor) {
+            var parts = motor["Total Impulse (lbf·s)"].replace(",", "").split(/–|-/);
+            motor.low_lbs = parseFloat(parts[0]);
+            motor.high_lbs = parseFloat(parts[1]);
+            return motor;
+        });
         
+
+        d3.text("TESTS.CSV", function (d) {
+            console.log(d);
+            testSelector = d3.select("#selected-test");
+            d = d.split("\n").reverse();
+
+            d = d.filter(function (test) {
+                return test != "";
+            });
+
+            d.forEach(function (test) {
+
+                testSelector.append('option')
+                    .attr("value", test)
+                    .text(test);
+            });
+
+            testSelector.property('value', d[0]);
+            showTest(d[0], motors);
+
+        });
     });
 
     function select() {
@@ -62,10 +77,18 @@ var g;
         showTest(testSelector.property('value'));
     }
 
-    function showTest(testFile) {
+    function showTest(testFile, motors) {
 
-        if (g)
-        g.remove();
+        console.log(motors);
+
+        if (classes) {
+            classes.remove();
+        }
+        classes = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        if (g) {
+            g.remove();
+        }
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         d3.tsv(testFile, function (d) {
@@ -114,7 +137,29 @@ var g;
                 .attr("x", 100)
                 .attr("y", 200)
                 .attr("dy", "0.71em")
-                .text("Impulse = " + computeImpulse(data).toFixed(2) + " lb*sec");
+                .text("Impulse = " + computeImpulse(data).toFixed(2) + " lbf·s");
+
+            classes.selectAll("rect.motor-class")
+                .data(motors)
+                .enter().append("rect")
+                .attr("class", "motor-class")
+                .attr("x", function (d) {
+                    return x.range()[0];
+                })
+                .attr("y", function (d) {
+                    console.log(y);
+                    return y(d.low_lbs);
+                })
+                .attr("width", function (d) {
+                    console.log();
+                    return x.range()[1];
+                })
+                .attr("height", function (d) {
+                    return 1;
+                })
+            .attr("fill", function(d){
+return motorClassColor(d.Class);
+            });
 
             var impulse = computeImpulse(data);
             console.log('impulse = ' + impulse);
