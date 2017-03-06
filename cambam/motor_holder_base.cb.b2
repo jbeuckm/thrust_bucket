@@ -20,20 +20,20 @@
             <p>0,-0.375</p>
           </pts>
         </points>
-        <circle id="4" c="0,0.375,0" d="0.25">
-          <ModificationCount>5</ModificationCount>
+        <circle id="4" c="0,0.375,0" d="0.251">
+          <ModificationCount>6</ModificationCount>
           <mat m="Identity" />
         </circle>
-        <circle id="5" c="0.289,0,0" d="0.25">
-          <ModificationCount>69</ModificationCount>
+        <circle id="5" c="0.289,0,0" d="0.251">
+          <ModificationCount>70</ModificationCount>
           <mat m="Identity" />
         </circle>
-        <circle id="6" c="-0.289,0,0" d="0.25">
-          <ModificationCount>7</ModificationCount>
+        <circle id="6" c="-0.289,0,0" d="0.251">
+          <ModificationCount>8</ModificationCount>
           <mat m="Identity" />
         </circle>
-        <circle id="7" c="0,-0.375,0" d="0.25">
-          <ModificationCount>31</ModificationCount>
+        <circle id="7" c="0,-0.375,0" d="0.251">
+          <ModificationCount>32</ModificationCount>
           <mat m="Identity" />
         </circle>
         <circle id="8" d="1.9">
