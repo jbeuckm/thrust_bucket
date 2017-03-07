@@ -29,14 +29,14 @@
 
     var line = d3.line()
         .x(function (d) {
-            return x(d.date);
+            return x(d.time);
         })
         .y(function (d) {
             return y(d.load);
         });
 
     var testSelector;
-        var motorClassColor = d3.scaleOrdinal(d3.schemeCategory20);
+    var motorClassColor = d3.scaleOrdinal(d3.schemeCategory20);
 
 
     d3.csv("motors.csv", function (motors) {
@@ -47,7 +47,7 @@
             motor.high_lbs = parseFloat(parts[1]);
             return motor;
         });
-        
+
 
         d3.text("TESTS.CSV", function (d) {
             console.log(d);
@@ -94,18 +94,38 @@
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         d3.tsv(testFile, function (d) {
-            d.date = parseTime(Math.floor(d.millis / 1000) + "." + (d.millis % 1000));
+            d.time = parseTime(Math.floor(d.millis / 1000) + "." + (d.millis % 1000));
             d.load = +d.load;
             return d;
         }, function (error, data) {
             if (error) throw error;
 
             x.domain(d3.extent(data, function (d) {
-                return d.date;
+                return d.time;
             }));
-            y.domain(d3.extent(data, function (d) {
+
+            var load_extent = d3.extent(data, function (d) {
                 return d.load;
-            }));
+            });
+
+            console.log(load_extent);
+            var max_load = load_extent[1];
+            var threshold = .05 * max_load;
+            var start_time, end_time;
+            data.some(function(d){
+                if (!start_time) {
+                    if (d.load >= threshold) {
+                        start_time = d.time;
+                    } 
+                } else {
+                    if (d.load <= threshold) {
+                        end_time = d.time;
+                        return true;
+                    }
+                }
+            });
+
+            y.domain(load_extent);
 
             g.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -159,14 +179,16 @@
                 .attr("height", function (d) {
                     return y(d.low_lbs) - y(d.high_lbs);
                 })
-                .attr("fill", function(d){
+                .attr("fill", function (d) {
                     return motorClassColor(d.Class);
                 })
-            
+
             classes.selectAll("rect.motor-class-label")
                 .data(motors)
                 .enter()
-                .append("text").text(function(d){ return d.Class; })
+                .append("text").text(function (d) {
+                    return d.Class;
+                })
                 .attr("class", "motor-class-label")
                 .attr("x", function (d) {
                     return x.range()[1];
@@ -174,7 +196,56 @@
                 .attr("y", function (d) {
                     console.log(y);
                     return (y(d.high_lbs) + y(d.low_lbs)) / 2;
+                });
+
+
+            max_line = g.append("line")
+                .attr("x1", function (d) {
+                    return x.range()[0];
                 })
+                .attr("y1", function (d) {
+                    return y(max_load);
+                })
+                .attr("x2", function (d) {
+                    return x.range()[1];
+                })
+                .attr("y2", function (d) {
+                    return y(max_load);
+                })
+                .attr("stroke-width", 1)
+                .attr("stroke", "blue");
+
+            start_line = g.append("line")
+                .attr("x1", function (d) {
+                    return x(start_time);
+                })
+                .attr("y1", function (d) {
+                    return y.range()[0];
+                })
+                .attr("x2", function (d) {
+                    return x(start_time);
+                })
+                .attr("y2", function (d) {
+                    return y.range()[1];
+                })
+                .attr("stroke-width", 1)
+                .attr("stroke", "green");
+
+            end_line = g.append("line")
+                .attr("x1", function (d) {
+                    return x(end_time);
+                })
+                .attr("y1", function (d) {
+                    return y.range()[0];
+                })
+                .attr("x2", function (d) {
+                    return x(end_time);
+                })
+                .attr("y2", function (d) {
+                    return y.range()[1];
+                })
+                .attr("stroke-width", 1)
+                .attr("stroke", "red");
 
             var impulse = computeImpulse(data);
             console.log('impulse = ' + impulse);
