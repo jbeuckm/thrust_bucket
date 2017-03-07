@@ -124,6 +124,8 @@
                     }
                 }
             });
+            var impulse = computeImpulse(data, start_time, end_time);
+            console.log('impulse = ' + impulse);
 
             y.domain(load_extent);
 
@@ -156,10 +158,20 @@
             g.append("g")
                 .append("text")
                 .attr("fill", "#000")
-                .attr("x", 100)
-                .attr("y", 200)
-                .attr("dy", "0.71em")
-                .text("Impulse = " + computeImpulse(data).toFixed(2) + " lbf·s");
+                .attr("x", x.range()[1] - 20)
+                .attr("y", 100)
+            .attr("text-anchor", "end")
+                .text("Impulse = " + impulse.toFixed(2) + " lbf·s");
+            
+            g.append("g")
+                .append("text")
+                .attr("fill", "#000")
+                .attr("x", x.range()[1] - 20)
+                .attr("y", 120)
+            .attr("text-anchor", "end")
+                .text("Impulse = " + (impulse*4.4482216).toFixed(2) + " N·s");
+            
+            
 
             classes.selectAll("rect.motor-class")
                 .data(motors)
@@ -247,16 +259,20 @@
                 .attr("stroke-width", 1)
                 .attr("stroke", "red");
 
-            var impulse = computeImpulse(data);
-            console.log('impulse = ' + impulse);
         });
     }
 
-    function computeImpulse(data) {
+    function computeImpulse(data, start_time, end_time) {
+        
+//        start_time = start_time.getTime();
+//        end_time = end_time.getTime();
+        
         var impulse = 0;
         for (var i = 1, l = data.length; i < l; i++) {
-            var interval = .001 * (data[i].millis - data[i - 1].millis);
-            impulse += interval * data[i - 1].load;
+            if (data[i].time >= start_time && data[i].time <= end_time) {
+                var interval = .001 * (data[i].millis - data[i - 1].millis);
+                impulse += interval * data[i - 1].load;
+            }
         }
         return impulse;
     }
