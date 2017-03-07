@@ -258,6 +258,27 @@
                 })
                 .attr("stroke-width", 1)
                 .attr("stroke", "red");
+            
+            
+            var burn_time = (end_time.getTime() - start_time.getTime()) / 1000;
+            var avg_thrust = impulse / burn_time;
+            
+            avg_thrust_line = g.append("line")
+                .attr("x1", function (d) {
+                    return x.range()[0];
+                })
+                .attr("y1", function (d) {
+                    return y(avg_thrust);
+                })
+                .attr("x2", function (d) {
+                    return x.range()[1];
+                })
+                .attr("y2", function (d) {
+                    return y(avg_thrust);
+                })
+                .attr("stroke-width", 1)
+                .attr("stroke", "black")
+            .style("stroke-dasharray","5,5");
 
         });
     }
