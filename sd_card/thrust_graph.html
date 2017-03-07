@@ -127,6 +127,9 @@
             var impulse = computeImpulse(data, start_time, end_time);
             console.log('impulse = ' + impulse);
 
+            var burn_time = (end_time.getTime() - start_time.getTime()) / 1000;
+            var avg_thrust = impulse / burn_time;
+
             y.domain(load_extent);
 
             g.append("g")
@@ -160,16 +163,23 @@
                 .attr("fill", "#000")
                 .attr("x", x.range()[1] - 20)
                 .attr("y", 100)
-            .attr("text-anchor", "end")
-                .text("Impulse = " + impulse.toFixed(2) + " lbf·s");
-            
+                .attr("text-anchor", "end")
+                .text(function(d) {
+                    var txt = "Impulse = " + impulse.toFixed(2) + "lbf·s ";
+                    txt +=  "("+(impulse*4.4482216).toFixed(2) + "N·s)";
+                    return txt;
+                });
+
             g.append("g")
                 .append("text")
                 .attr("fill", "#000")
                 .attr("x", x.range()[1] - 20)
                 .attr("y", 120)
-            .attr("text-anchor", "end")
-                .text("Impulse = " + (impulse*4.4482216).toFixed(2) + " N·s");
+                .attr("text-anchor", "end")
+                .text(function(d) {
+                    var txt = "Burn Time = " + burn_time.toFixed(2) + "s";
+                    return txt;
+                });
             
             
 
@@ -260,8 +270,6 @@
                 .attr("stroke", "red");
             
             
-            var burn_time = (end_time.getTime() - start_time.getTime()) / 1000;
-            var avg_thrust = impulse / burn_time;
             
             avg_thrust_line = g.append("line")
                 .attr("x1", function (d) {
